@@ -6,15 +6,16 @@ using System.Threading.Tasks;
 
 namespace OfficeManagementSystem.Models
 {
-    internal class BudgetItems
+    public class BudgetItems
     {
-        public int BudgetItemID { get; set; }
-        public int EventID { get; set; }
+        public int ID { get; set; }
+        public int EventsID { get; set; }
         public string Decription { get; set; }
         public decimal Amount { get; set; }
         public int Type { get; set; }
         public DateTime Date { get; set; }
 
+        // Navigations Property
         public Events Events { get; set; }
     }
 }

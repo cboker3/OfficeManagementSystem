@@ -6,16 +6,15 @@ using System.Threading.Tasks;
 
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Identity.Client;
-
 using OfficeManagementSystem.Models;
-using Microsoft.EntityFrameworkCore;
 
 
-namespace OfficeManagementSystem.Models
+
+namespace OfficeManagementSystem.Data
 {
     public class OMScontext : DbContext
     {
-        /*
+
         public DbSet<Attendees> Attendees { get; set; }
         public DbSet<BudgetItems> BudgetItems { get; set; }
         public DbSet<Contacts> Contacts { get; set; }
@@ -26,7 +25,7 @@ namespace OfficeManagementSystem.Models
         public DbSet<Tasks> Tasks { get; set; }
         public DbSet<Users> Users { get; set; }
         public DbSet<Venues> Venues { get; set; }
-        */
+        
 
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
@@ -42,12 +41,7 @@ namespace OfficeManagementSystem.Models
                 "Data Source=mydb.db; Version=3;"
                 );*/
 
-            base.OnConfiguring(optionsBuilder);
-        }
-
-        protected override void OnModelCreating(ModelBuilder modelBuilder)
-        {
-            base.OnModelCreating(modelBuilder);
+            //base.OnConfiguring(optionsBuilder);
         }
     }
 }

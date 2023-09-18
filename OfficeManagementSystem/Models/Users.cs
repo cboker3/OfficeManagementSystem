@@ -6,13 +6,14 @@ using System.Threading.Tasks;
 
 namespace OfficeManagementSystem.Models
 {
-    internal class Users
+    public class Users
     {
-        public int UserID { get; set; }
+        public int ID { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public string Username { get; set; }
-        public HashCode Password { get; set; }
+        // Hashcode is not a supported primitive type or a valid entity type. HashCode changed to byte[]
+        public byte[] Password { get; set; }
         public string Role { get; set; }
     }
 }

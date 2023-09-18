@@ -6,15 +6,16 @@ using System.Threading.Tasks;
 
 namespace OfficeManagementSystem.Models
 {
-    internal class Tasks
+    public class Tasks
     {
-        public int TaskID { get; set; }
-        public int EventID { get; set; }
+        public int ID { get; set; }
+        public int EventsID { get; set; }
         public string Description { get; set; }
         public DateTime DueDate { get; set; }
         public int Priority { get; set; } // Change to a byte?
         public int Status { get; set; } // Change to a byte? 
 
+        // Navigations Property
         public Events Events { get; set; }
     }
 }

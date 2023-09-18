@@ -7,9 +7,9 @@ using System.Threading.Tasks;
 
 namespace OfficeManagementSystem.Models
 {
-    internal class Events
+    public class Events
     {
-        public int EventID { get; set; }
+        public int ID { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
         public DateTime StartDate { get; set; }

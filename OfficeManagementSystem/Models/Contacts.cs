@@ -6,15 +6,16 @@ using System.Threading.Tasks;
 
 namespace OfficeManagementSystem.Models
 {
-    internal class Contacts
+    public class Contacts
     {
-        public int ContactID { get; set; }
+        public int ID { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public string Email { get; set; }
         public string Phone { get; set; }
         public string Organization { get; set; }
 
+        // Navigations Property
         public ICollection<Events> Events { get; }
     }
 }

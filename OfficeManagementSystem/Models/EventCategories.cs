@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace OfficeManagementSystem.Models
 {
-    internal class EventCategories
+    public class EventCategories
     {
-        public int CategoryID { get; set; }
+        public int ID { get; set; }
         public string Name { get; set; }
     }
 }

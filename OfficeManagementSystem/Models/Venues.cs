@@ -7,14 +7,15 @@ using System.Threading.Tasks;
 
 namespace OfficeManagementSystem.Models
 {
-    internal class Venues
+    public class Venues
     {
-        public int VenueID { get; set; }
+        public int ID { get; set; }
         public string Name { get; set; }
         public string Address { get; set; }
         public int Capacity { get; set; }
         public Byte[] LayoutDiagram { get; set; }
 
+        // Navigations Property
         public ICollection<Events> Events { get; }
     }
 }
