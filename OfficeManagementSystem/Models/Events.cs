@@ -16,10 +16,12 @@ namespace OfficeManagementSystem.Models
 
         public DateTime EndDate { get; set; }
 
-        public string Location { get; set; }
-        public int Capacity { get; set; }
         public int CategoryID { get; set; }
         public EventCategories EventCategories
+        { get; set; }
+
+        public int VenueID { get; set; }
+        public Venues Venues
         { get; set; }
 
         public ICollection<Attendees> Attendees { get; }

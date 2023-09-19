@@ -75,6 +75,7 @@ namespace OfficeManagementSystem
             dgvMain.Columns.Clear();
 
             // Queries the database for Events based on a select equry.
+            // ADDITIONAL: Will have to also join on Venue for the name of the venue
             var query = from taskRecord in _OMScontext.Tasks
                         join eventRecord in _OMScontext.Events
                         on taskRecord.EventsID equals eventRecord.ID
@@ -84,8 +85,7 @@ namespace OfficeManagementSystem
                             Status = taskRecord.Status,
                             DueDate = taskRecord.DueDate,
                             Description = taskRecord.Description,
-                            Name = eventRecord.Name,
-                            Location = eventRecord.Location
+                            Name = eventRecord.Name
                         };
 
             // Load the query information into data variable and made into a list
@@ -123,6 +123,10 @@ namespace OfficeManagementSystem
 
         private void eventDetailsToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            EventForm editEventForm = new EventForm();
+
+            // Need to verify if an event is selected.
+            editEventForm.editEvent(null);
 
         }
 
@@ -132,20 +136,27 @@ namespace OfficeManagementSystem
             dgvMain.Columns.Clear();
 
             // Queries the database for Events based on a select equry.
+            // ADDITIONAL: Will have to join on Venue to get the Name of the Venue, and maybe address?????
             var query = from eventRecord in _OMScontext.Events
                         join eventCatRecord in _OMScontext.EventCategories
                         on eventRecord.CategoryID equals eventCatRecord.ID
                         select new
                         {
                             Name = eventRecord.Name,
-                            Category = eventCatRecord.Name,
-                            Location = eventRecord.Location
+                            Category = eventCatRecord.Name
                         };
 
             // Load the query information into data variable and made into a list
             var data = query.ToList();
             // Link the data to the data source of the DataGridView.
             dgvMain.DataSource = data;
+        }
+
+        private void createEventToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            EventForm createEventForm = new EventForm();
+            createEventForm.createEvent();
+
         }
     }
 }

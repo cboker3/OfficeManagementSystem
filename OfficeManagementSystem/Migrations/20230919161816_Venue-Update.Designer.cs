@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using OfficeManagementSystem.Data;
 
 namespace OfficeManagementSystem.Migrations
 {
     [DbContext(typeof(OMScontext))]
-    partial class OMScontextModelSnapshot : ModelSnapshot
+    [Migration("20230919161816_Venue-Update")]
+    partial class VenueUpdate
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -146,9 +148,6 @@ namespace OfficeManagementSystem.Migrations
 
                     b.Property<DateTime>("StartDate")
                         .HasColumnType("datetime2");
-
-                    b.Property<int>("VenueID")
-                        .HasColumnType("int");
 
                     b.Property<int?>("VenuesID")
                         .HasColumnType("int");
@@ -327,7 +326,7 @@ namespace OfficeManagementSystem.Migrations
                         .WithMany()
                         .HasForeignKey("EventCategoriesID");
 
-                    b.HasOne("OfficeManagementSystem.Models.Venues", "Venues")
+                    b.HasOne("OfficeManagementSystem.Models.Venues", null)
                         .WithMany("Events")
                         .HasForeignKey("VenuesID");
                 });

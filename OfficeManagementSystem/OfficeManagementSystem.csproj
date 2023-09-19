@@ -191,6 +191,14 @@
     <Compile Include="Migrations\20230916040320_Migrate_1.designer.cs">
       <DependentUpon>20230916040320_Migrate_1.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\20230919161816_Venue-Update.cs" />
+    <Compile Include="Migrations\20230919161816_Venue-Update.designer.cs">
+      <DependentUpon>20230919161816_Venue-Update.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\20230919165909_Venue-Updatev2.cs" />
+    <Compile Include="Migrations\20230919165909_Venue-Updatev2.designer.cs">
+      <DependentUpon>20230919165909_Venue-Updatev2.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\OMScontextModelSnapshot.cs" />
     <Compile Include="Models\Attendees.cs" />
     <Compile Include="Models\BudgetItems.cs" />

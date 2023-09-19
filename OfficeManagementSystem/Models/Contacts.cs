@@ -4,6 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+// Use this with the brackets like [Key]
+//System.ComponentModel.DataAnnotations;
+
 namespace OfficeManagementSystem.Models
 {
     public class Contacts

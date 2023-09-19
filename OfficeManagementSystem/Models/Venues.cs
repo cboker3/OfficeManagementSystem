@@ -13,6 +13,7 @@ namespace OfficeManagementSystem.Models
         public string Name { get; set; }
         public string Address { get; set; }
         public int Capacity { get; set; }
+        public bool CompanyOwned { get; set; }
         public Byte[] LayoutDiagram { get; set; }
 
         // Navigations Property

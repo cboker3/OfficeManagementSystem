@@ -110,6 +110,7 @@
             this.createEventToolStripMenuItem.Name = "createEventToolStripMenuItem";
             this.createEventToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.createEventToolStripMenuItem.Text = "Create Event";
+            this.createEventToolStripMenuItem.Click += new System.EventHandler(this.createEventToolStripMenuItem_Click);
             // 
             // toolStripSeparator2
             // 
