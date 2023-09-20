@@ -20,7 +20,7 @@ namespace OfficeManagementSystem.Models
         public EventCategories EventCategories
         { get; set; }
 
-        public int VenueID { get; set; }
+        public int VenuesID { get; set; }
         public Venues Venues
         { get; set; }
 
@@ -28,11 +28,11 @@ namespace OfficeManagementSystem.Models
 
         public ICollection<Tasks> Tasks { get; }
 
-        public ICollection<Contacts> Contacts { get; }
-
         public ICollection<Resources> Resources { get; }
 
         public ICollection<BudgetItems> BudgetItems { get; }
+        public ICollection<Contacts> Contacts { get; } = new List<Contacts>();
+
 
 
     }

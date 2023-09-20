@@ -14,6 +14,7 @@ using System.Windows.Forms;
 using OfficeManagementSystem.Essential;
 using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement;
+using Microsoft.EntityFrameworkCore;
 
 namespace OfficeManagementSystem
 {
@@ -49,7 +50,7 @@ namespace OfficeManagementSystem
             dtpEndDate.MinDate = DateTime.Today;
 
             // Queries the database for Events based on a select equry.
-            var query = from venueRecord in _OMScontext.Venues
+            /*var query = from venueRecord in _OMScontext.Venues
                         select new
                         {
                             Name = venueRecord.Name,
@@ -57,28 +58,27 @@ namespace OfficeManagementSystem
                             Address = venueRecord.Address,
                             Layout = venueRecord.LayoutDiagram
                         };
-
+            */
+            var query = _OMScontext.Venues.ToList();
             // Load the query information into data variable and made into a list
             var data = query.ToList();
             // Link the data to the data source of the DataGridView.
             cbxVenueSelect.DataSource = data;
             cbxVenueSelect.DisplayMember = "Name";
-            //cbxVenueSelect.ValueMember = "ID";
+            cbxVenueSelect.ValueMember = "ID";
 
             // Queries the database for Events based on a select equry.
-            var query2 = from eventCatRecord in _OMScontext.EventCategories
-                        select new
-                        {
-                            Name = eventCatRecord.Name,
-                        };
+            using (OMScontext context = new OMScontext())
+            {
+                var query2 = context.EventCategories.OrderBy(ec => ec.Name).ToList();
 
-            // Load the query information into data variable and made into a list
-            var data2 = query2.ToList();
-            // Link the data to the data source of the DataGridView.
-            cbxEventCat.DataSource = data2;
-            cbxEventCat.DisplayMember = "Name";
-            //cbxVenueSelect.ValueMember = "ID";
-
+                // Load the query information into data variable and made into a list
+                var data2 = query2.ToList();
+                // Link the data to the data source of the DataGridView.
+                cbxEventCat.DataSource = data2;
+                cbxEventCat.DisplayMember = "Name";
+                cbxVenueSelect.ValueMember = "ID";
+            }
 
             // Need to insert a query on Venue usage. If an Event is going on in a certain Venue,
             // should not be able to pick a time that Venue is being used. 
@@ -98,45 +98,48 @@ namespace OfficeManagementSystem
             btnEdit.Visible = true;
             btnCreate.Visible = false;
             btnAddVenue.Visible = false;
-
-            var query = from eventRecord in _OMScontext.Events
-                        join eventCatRecord in _OMScontext.EventCategories
-                        on eventRecord.CategoryID equals eventCatRecord.ID
-                        join venueRecord in _OMScontext.Venues
-                        on eventRecord.VenueID equals venueRecord.ID
-                        where  eventRecord.ID == editEvent.ID
-                        select new
-                        {
-                            EventName = eventRecord.Name,
-                            VenueName = venueRecord.Name,
-                            EventDescription = eventRecord.Description,
-                            VenueCapacity = venueRecord.Capacity,
-                            Category = eventCatRecord.Name,
-                            EventStartDate = eventRecord.StartDate,
-                            EventEndDate = eventRecord.EndDate
-                        };
-
-            // MIGHT want to load a try catch here to catch errors
-            // Load the query information into data variable and made into a list
-            var data = query.ToList();
-
-            tbxName.Text = query.ElementAt(0).EventName;
-            tbxDescription.Text = query.ElementAt(0).EventDescription;
-
-            dtpStartDate.Value = query.ElementAt(0).EventStartDate;
-            dtpEndDate.Value = query.ElementAt(0).EventEndDate;
-
-            // Iterate through the items in the ComboBox
-            foreach (var item in cbxVenueSelect.Items)
+            using(OMScontext context = new OMScontext())
             {
-                // Check if the item's ValueMember (assuming it's a string) matches the target value
-                if (item is DataRowView rowView && rowView.Row["ValueMemberColumnName"].ToString() == query.ElementAt(0).VenueName)
+                var query = from eventRecord in _OMScontext.Events
+                            join eventCatRecord in _OMScontext.EventCategories
+                            on eventRecord.CategoryID equals eventCatRecord.ID
+                            join venueRecord in _OMScontext.Venues
+                            on eventRecord.VenuesID equals venueRecord.ID
+                            where eventRecord.ID == editEvent.ID
+                            select new
+                            {
+                                EventName = eventRecord.Name,
+                                VenueName = venueRecord.Name,
+                                EventDescription = eventRecord.Description,
+                                VenueCapacity = venueRecord.Capacity,
+                                Category = eventCatRecord.Name,
+                                EventStartDate = eventRecord.StartDate,
+                                EventEndDate = eventRecord.EndDate
+                            };
+
+                // MIGHT want to load a try catch here to catch errors
+                // Load the query information into data variable and made into a list
+                var data = query.ToList();
+
+                tbxName.Text = query.ElementAt(0).EventName;
+                tbxDescription.Text = query.ElementAt(0).EventDescription;
+
+                dtpStartDate.Value = query.ElementAt(0).EventStartDate;
+                dtpEndDate.Value = query.ElementAt(0).EventEndDate;
+
+                // Iterate through the items in the ComboBox
+                foreach (var item in cbxVenueSelect.Items)
                 {
-                    // Set the SelectedValue property to the matched ValueMember
-                    cbxVenueSelect.SelectedValue = rowView.Row["ValueMemberColumnName"];
-                    break; // Exit the loop once a match is found
+                    // Check if the item's ValueMember (assuming it's a string) matches the target value
+                    if (item is DataRowView rowView && rowView.Row["ValueMemberColumnName"].ToString() == query.ElementAt(0).VenueName)
+                    {
+                        // Set the SelectedValue property to the matched ValueMember
+                        cbxVenueSelect.SelectedValue = rowView.Row["ValueMemberColumnName"];
+                        break; // Exit the loop once a match is found
+                    }
                 }
             }
+ 
             
 
         }
@@ -178,16 +181,25 @@ namespace OfficeManagementSystem
             // Perform a database query or some action based on the selected item
             string selectedItem = cbxVenueSelect.SelectedItem.ToString();
 
-            // Query the database or perform an action to get information
-            Venues venueRecord = (Venues)GetInformationFromDatabase(selectedItem);
+            if(selectedItem != null)
+            {
+                // Query the database or perform an action to get information
+                Venues venueRecord = (Venues)GetInformationFromDatabase(selectedItem);
 
-            // Display the information in the TextBox
-            tbxCapacity.Text = venueRecord.Capacity.ToString();
-            tbxAddress.Text = venueRecord.Address.ToString();
+                if(venueRecord != null)
+                {
+                    // Display the information in the TextBox
+                    tbxCapacity.Text = venueRecord.Capacity.ToString();
+                    tbxAddress.Text = venueRecord.Address.ToString();
+                }
+            }
+
         }
 
         private Object GetInformationFromDatabase(string selectedItem)
         {
+
+           _OMScontext.Venues.Load();
             // Use your DbContext to query the database and retrieve information
             using (_OMScontext)
             {

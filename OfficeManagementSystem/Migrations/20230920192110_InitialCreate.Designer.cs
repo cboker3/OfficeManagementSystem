@@ -10,8 +10,8 @@ using OfficeManagementSystem.Data;
 namespace OfficeManagementSystem.Migrations
 {
     [DbContext(typeof(OMScontext))]
-    [Migration("20230916040320_Migrate_1")]
-    partial class Migrate_1
+    [Migration("20230920192110_InitialCreate")]
+    partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -131,9 +131,6 @@ namespace OfficeManagementSystem.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int>("Capacity")
-                        .HasColumnType("int");
-
                     b.Property<int>("CategoryID")
                         .HasColumnType("int");
 
@@ -146,16 +143,13 @@ namespace OfficeManagementSystem.Migrations
                     b.Property<int?>("EventCategoriesID")
                         .HasColumnType("int");
 
-                    b.Property<string>("Location")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("StartDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<int?>("VenuesID")
+                    b.Property<int>("VenuesID")
                         .HasColumnType("int");
 
                     b.HasKey("ID");
@@ -294,6 +288,9 @@ namespace OfficeManagementSystem.Migrations
                     b.Property<int>("Capacity")
                         .HasColumnType("int");
 
+                    b.Property<bool>("CompanyOwned")
+                        .HasColumnType("bit");
+
                     b.Property<byte[]>("LayoutDiagram")
                         .HasColumnType("varbinary(max)");
 
@@ -329,9 +326,11 @@ namespace OfficeManagementSystem.Migrations
                         .WithMany()
                         .HasForeignKey("EventCategoriesID");
 
-                    b.HasOne("OfficeManagementSystem.Models.Venues", null)
+                    b.HasOne("OfficeManagementSystem.Models.Venues", "Venues")
                         .WithMany("Events")
-                        .HasForeignKey("VenuesID");
+                        .HasForeignKey("VenuesID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("OfficeManagementSystem.Models.Messages", b =>

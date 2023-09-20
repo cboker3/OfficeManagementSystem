@@ -187,17 +187,9 @@
     <Compile Include="MainForm.Designer.cs">
       <DependentUpon>MainForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\20230916040320_Migrate_1.cs" />
-    <Compile Include="Migrations\20230916040320_Migrate_1.designer.cs">
-      <DependentUpon>20230916040320_Migrate_1.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\20230919161816_Venue-Update.cs" />
-    <Compile Include="Migrations\20230919161816_Venue-Update.designer.cs">
-      <DependentUpon>20230919161816_Venue-Update.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\20230919165909_Venue-Updatev2.cs" />
-    <Compile Include="Migrations\20230919165909_Venue-Updatev2.designer.cs">
-      <DependentUpon>20230919165909_Venue-Updatev2.cs</DependentUpon>
+    <Compile Include="Migrations\20230920192110_InitialCreate.cs" />
+    <Compile Include="Migrations\20230920192110_InitialCreate.designer.cs">
+      <DependentUpon>20230920192110_InitialCreate.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\OMScontextModelSnapshot.cs" />
     <Compile Include="Models\Attendees.cs" />

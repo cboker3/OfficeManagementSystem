@@ -28,9 +28,16 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.menuEMS = new System.Windows.Forms.MenuStrip();
             this.loginToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.userLoginToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.viewToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.eventsToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+            this.tasksToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+            this.venuesToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+            this.contactsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.resourcesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.eventsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.createEventToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
@@ -51,14 +58,15 @@
             this.generateReportsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.debugToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.dgvMain = new System.Windows.Forms.DataGridView();
-            this.viewToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.eventsToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
-            this.tasksToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
-            this.venuesToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
-            this.contactsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.resourcesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.eventsBindingSource = new System.Windows.Forms.BindingSource(this.components);
+            this.iDDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.nameDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.descriptionDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.startDateDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.endDateDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.menuEMS.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvMain)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.eventsBindingSource)).BeginInit();
             this.SuspendLayout();
             // 
             // menuEMS
@@ -93,6 +101,49 @@
             this.userLoginToolStripMenuItem.Text = "User Login";
             this.userLoginToolStripMenuItem.Click += new System.EventHandler(this.userLoginToolStripMenuItem_Click);
             // 
+            // viewToolStripMenuItem
+            // 
+            this.viewToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.eventsToolStripMenuItem1,
+            this.tasksToolStripMenuItem1,
+            this.venuesToolStripMenuItem1,
+            this.contactsToolStripMenuItem,
+            this.resourcesToolStripMenuItem});
+            this.viewToolStripMenuItem.Name = "viewToolStripMenuItem";
+            this.viewToolStripMenuItem.Size = new System.Drawing.Size(44, 20);
+            this.viewToolStripMenuItem.Text = "View";
+            // 
+            // eventsToolStripMenuItem1
+            // 
+            this.eventsToolStripMenuItem1.Name = "eventsToolStripMenuItem1";
+            this.eventsToolStripMenuItem1.Size = new System.Drawing.Size(127, 22);
+            this.eventsToolStripMenuItem1.Text = "Events";
+            this.eventsToolStripMenuItem1.Click += new System.EventHandler(this.eventsToolStripMenuItem1_Click);
+            // 
+            // tasksToolStripMenuItem1
+            // 
+            this.tasksToolStripMenuItem1.Name = "tasksToolStripMenuItem1";
+            this.tasksToolStripMenuItem1.Size = new System.Drawing.Size(127, 22);
+            this.tasksToolStripMenuItem1.Text = "Tasks";
+            // 
+            // venuesToolStripMenuItem1
+            // 
+            this.venuesToolStripMenuItem1.Name = "venuesToolStripMenuItem1";
+            this.venuesToolStripMenuItem1.Size = new System.Drawing.Size(127, 22);
+            this.venuesToolStripMenuItem1.Text = "Venues";
+            // 
+            // contactsToolStripMenuItem
+            // 
+            this.contactsToolStripMenuItem.Name = "contactsToolStripMenuItem";
+            this.contactsToolStripMenuItem.Size = new System.Drawing.Size(127, 22);
+            this.contactsToolStripMenuItem.Text = "Contacts";
+            // 
+            // resourcesToolStripMenuItem
+            // 
+            this.resourcesToolStripMenuItem.Name = "resourcesToolStripMenuItem";
+            this.resourcesToolStripMenuItem.Size = new System.Drawing.Size(127, 22);
+            this.resourcesToolStripMenuItem.Text = "Resources";
+            // 
             // eventsToolStripMenuItem
             // 
             this.eventsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -108,32 +159,32 @@
             // createEventToolStripMenuItem
             // 
             this.createEventToolStripMenuItem.Name = "createEventToolStripMenuItem";
-            this.createEventToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.createEventToolStripMenuItem.Size = new System.Drawing.Size(169, 22);
             this.createEventToolStripMenuItem.Text = "Create Event";
             this.createEventToolStripMenuItem.Click += new System.EventHandler(this.createEventToolStripMenuItem_Click);
             // 
             // toolStripSeparator2
             // 
             this.toolStripSeparator2.Name = "toolStripSeparator2";
-            this.toolStripSeparator2.Size = new System.Drawing.Size(177, 6);
+            this.toolStripSeparator2.Size = new System.Drawing.Size(166, 6);
             // 
             // eventDetailsToolStripMenuItem
             // 
             this.eventDetailsToolStripMenuItem.Name = "eventDetailsToolStripMenuItem";
-            this.eventDetailsToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.eventDetailsToolStripMenuItem.Size = new System.Drawing.Size(169, 22);
             this.eventDetailsToolStripMenuItem.Text = "Event Details";
             this.eventDetailsToolStripMenuItem.Click += new System.EventHandler(this.eventDetailsToolStripMenuItem_Click);
             // 
             // eventRegistrationToolStripMenuItem
             // 
             this.eventRegistrationToolStripMenuItem.Name = "eventRegistrationToolStripMenuItem";
-            this.eventRegistrationToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.eventRegistrationToolStripMenuItem.Size = new System.Drawing.Size(169, 22);
             this.eventRegistrationToolStripMenuItem.Text = "Event Registration";
             // 
             // eventResourcesToolStripMenuItem
             // 
             this.eventResourcesToolStripMenuItem.Name = "eventResourcesToolStripMenuItem";
-            this.eventResourcesToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.eventResourcesToolStripMenuItem.Size = new System.Drawing.Size(169, 22);
             this.eventResourcesToolStripMenuItem.Text = "Event Resources";
             // 
             // tasksToolStripMenuItem
@@ -232,55 +283,59 @@
             this.dgvMain.AllowUserToAddRows = false;
             this.dgvMain.AllowUserToDeleteRows = false;
             this.dgvMain.AllowUserToOrderColumns = true;
+            this.dgvMain.AutoGenerateColumns = false;
             this.dgvMain.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dgvMain.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.iDDataGridViewTextBoxColumn,
+            this.nameDataGridViewTextBoxColumn,
+            this.descriptionDataGridViewTextBoxColumn,
+            this.startDateDataGridViewTextBoxColumn,
+            this.endDateDataGridViewTextBoxColumn});
+            this.dgvMain.DataSource = this.eventsBindingSource;
             this.dgvMain.Location = new System.Drawing.Point(12, 149);
             this.dgvMain.Name = "dgvMain";
             this.dgvMain.ReadOnly = true;
             this.dgvMain.Size = new System.Drawing.Size(800, 300);
             this.dgvMain.TabIndex = 1;
             // 
-            // viewToolStripMenuItem
+            // eventsBindingSource
             // 
-            this.viewToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.eventsToolStripMenuItem1,
-            this.tasksToolStripMenuItem1,
-            this.venuesToolStripMenuItem1,
-            this.contactsToolStripMenuItem,
-            this.resourcesToolStripMenuItem});
-            this.viewToolStripMenuItem.Name = "viewToolStripMenuItem";
-            this.viewToolStripMenuItem.Size = new System.Drawing.Size(44, 20);
-            this.viewToolStripMenuItem.Text = "View";
+            this.eventsBindingSource.DataSource = typeof(OfficeManagementSystem.Models.Events);
             // 
-            // eventsToolStripMenuItem1
+            // iDDataGridViewTextBoxColumn
             // 
-            this.eventsToolStripMenuItem1.Name = "eventsToolStripMenuItem1";
-            this.eventsToolStripMenuItem1.Size = new System.Drawing.Size(180, 22);
-            this.eventsToolStripMenuItem1.Text = "Events";
-            this.eventsToolStripMenuItem1.Click += new System.EventHandler(this.eventsToolStripMenuItem1_Click);
+            this.iDDataGridViewTextBoxColumn.DataPropertyName = "ID";
+            this.iDDataGridViewTextBoxColumn.HeaderText = "ID";
+            this.iDDataGridViewTextBoxColumn.Name = "iDDataGridViewTextBoxColumn";
+            this.iDDataGridViewTextBoxColumn.ReadOnly = true;
             // 
-            // tasksToolStripMenuItem1
+            // nameDataGridViewTextBoxColumn
             // 
-            this.tasksToolStripMenuItem1.Name = "tasksToolStripMenuItem1";
-            this.tasksToolStripMenuItem1.Size = new System.Drawing.Size(180, 22);
-            this.tasksToolStripMenuItem1.Text = "Tasks";
+            this.nameDataGridViewTextBoxColumn.DataPropertyName = "Name";
+            this.nameDataGridViewTextBoxColumn.HeaderText = "Name";
+            this.nameDataGridViewTextBoxColumn.Name = "nameDataGridViewTextBoxColumn";
+            this.nameDataGridViewTextBoxColumn.ReadOnly = true;
             // 
-            // venuesToolStripMenuItem1
+            // descriptionDataGridViewTextBoxColumn
             // 
-            this.venuesToolStripMenuItem1.Name = "venuesToolStripMenuItem1";
-            this.venuesToolStripMenuItem1.Size = new System.Drawing.Size(180, 22);
-            this.venuesToolStripMenuItem1.Text = "Venues";
+            this.descriptionDataGridViewTextBoxColumn.DataPropertyName = "Description";
+            this.descriptionDataGridViewTextBoxColumn.HeaderText = "Description";
+            this.descriptionDataGridViewTextBoxColumn.Name = "descriptionDataGridViewTextBoxColumn";
+            this.descriptionDataGridViewTextBoxColumn.ReadOnly = true;
             // 
-            // contactsToolStripMenuItem
+            // startDateDataGridViewTextBoxColumn
             // 
-            this.contactsToolStripMenuItem.Name = "contactsToolStripMenuItem";
-            this.contactsToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-            this.contactsToolStripMenuItem.Text = "Contacts";
+            this.startDateDataGridViewTextBoxColumn.DataPropertyName = "StartDate";
+            this.startDateDataGridViewTextBoxColumn.HeaderText = "StartDate";
+            this.startDateDataGridViewTextBoxColumn.Name = "startDateDataGridViewTextBoxColumn";
+            this.startDateDataGridViewTextBoxColumn.ReadOnly = true;
             // 
-            // resourcesToolStripMenuItem
+            // endDateDataGridViewTextBoxColumn
             // 
-            this.resourcesToolStripMenuItem.Name = "resourcesToolStripMenuItem";
-            this.resourcesToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-            this.resourcesToolStripMenuItem.Text = "Resources";
+            this.endDateDataGridViewTextBoxColumn.DataPropertyName = "EndDate";
+            this.endDateDataGridViewTextBoxColumn.HeaderText = "EndDate";
+            this.endDateDataGridViewTextBoxColumn.Name = "endDateDataGridViewTextBoxColumn";
+            this.endDateDataGridViewTextBoxColumn.ReadOnly = true;
             // 
             // MainForm
             // 
@@ -296,6 +351,7 @@
             this.menuEMS.ResumeLayout(false);
             this.menuEMS.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvMain)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.eventsBindingSource)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -332,5 +388,11 @@
         private System.Windows.Forms.ToolStripMenuItem venuesToolStripMenuItem1;
         private System.Windows.Forms.ToolStripMenuItem contactsToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem resourcesToolStripMenuItem;
+        private System.Windows.Forms.DataGridViewTextBoxColumn iDDataGridViewTextBoxColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn nameDataGridViewTextBoxColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn descriptionDataGridViewTextBoxColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn startDateDataGridViewTextBoxColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn endDateDataGridViewTextBoxColumn;
+        private System.Windows.Forms.BindingSource eventsBindingSource;
     }
 }

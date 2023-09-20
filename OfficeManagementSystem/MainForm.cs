@@ -123,10 +123,9 @@ namespace OfficeManagementSystem
 
         private void eventDetailsToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            EventForm editEventForm = new EventForm();
-
+            //EventForm editEventForm = new EventForm();
             // Need to verify if an event is selected.
-            editEventForm.editEvent(null);
+            //editEventForm.editEvent(null);
 
         }
 
@@ -135,21 +134,45 @@ namespace OfficeManagementSystem
             // Clear existing columns
             dgvMain.Columns.Clear();
 
-            // Queries the database for Events based on a select equry.
-            // ADDITIONAL: Will have to join on Venue to get the Name of the Venue, and maybe address?????
-            var query = from eventRecord in _OMScontext.Events
-                        join eventCatRecord in _OMScontext.EventCategories
-                        on eventRecord.CategoryID equals eventCatRecord.ID
-                        select new
-                        {
-                            Name = eventRecord.Name,
-                            Category = eventCatRecord.Name
-                        };
 
-            // Load the query information into data variable and made into a list
-            var data = query.ToList();
-            // Link the data to the data source of the DataGridView.
-            dgvMain.DataSource = data;
+            using (OMScontext context = new OMScontext())
+            {
+                var data = from eventRecord in _OMScontext.Events
+                                     join eventCatRecord in _OMScontext.EventCategories
+                                     on eventRecord.CategoryID equals eventCatRecord.ID
+                                     join venueRecord in _OMScontext.Venues
+                                     on eventRecord.VenuesID equals venueRecord.ID
+                                     select new
+                                     {
+                                         Name = eventRecord.Name,
+                                         Category = eventCatRecord.Name,
+                                         VenueName = venueRecord.Name,
+                                         Description = eventRecord.Description,
+                                         StartDate = eventRecord.StartDate,
+                                         EndDate = eventRecord.EndDate
+                                     };
+
+                dgvMain.DataSource = data.ToList();
+                dgvMain.AutoGenerateColumns = true;
+            }
+
+
+
+            //// Queries the database for Events based on a select equry.
+            //// ADDITIONAL: Will have to join on Venue to get the Name of the Venue, and maybe address?????
+            //var query = from eventRecord in _OMScontext.Events
+            //            join eventCatRecord in _OMScontext.EventCategories
+            //            on eventRecord.CategoryID equals eventCatRecord.ID
+            //            select new
+            //            {
+            //                Name = eventRecord.Name,
+            //                Category = eventCatRecord.Name
+            //            };
+
+            //// Load the query information into data variable and made into a list
+            //var data = query.ToList();
+            //// Link the data to the data source of the DataGridView.
+            //dgvMain.DataSource = data;
         }
 
         private void createEventToolStripMenuItem_Click(object sender, EventArgs e)

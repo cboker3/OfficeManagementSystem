@@ -147,10 +147,7 @@ namespace OfficeManagementSystem.Migrations
                     b.Property<DateTime>("StartDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("VenueID")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("VenuesID")
+                    b.Property<int>("VenuesID")
                         .HasColumnType("int");
 
                     b.HasKey("ID");
@@ -329,7 +326,9 @@ namespace OfficeManagementSystem.Migrations
 
                     b.HasOne("OfficeManagementSystem.Models.Venues", "Venues")
                         .WithMany("Events")
-                        .HasForeignKey("VenuesID");
+                        .HasForeignKey("VenuesID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("OfficeManagementSystem.Models.Messages", b =>

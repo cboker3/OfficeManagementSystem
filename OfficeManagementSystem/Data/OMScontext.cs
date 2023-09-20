@@ -31,7 +31,7 @@ namespace OfficeManagementSystem.Data
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             optionsBuilder.UseSqlServer(
-                "Server=localhost; Database=OfficeManagmentSystemDB; Trusted_Connection=true;"
+                "Server=localhost; Database=OMS_DB; Trusted_Connection=true;"
                 );
 
             /*optionsBuilder.UseSqlServer(
@@ -42,6 +42,11 @@ namespace OfficeManagementSystem.Data
                 );*/
 
             //base.OnConfiguring(optionsBuilder);
+        }
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            base.OnModelCreating(modelBuilder);
         }
     }
 }

@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace OfficeManagementSystem.Migrations
 {
-    public partial class Migrate_1 : Migration
+    public partial class InitialCreate : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -63,6 +63,7 @@ namespace OfficeManagementSystem.Migrations
                     Name = table.Column<string>(nullable: true),
                     Address = table.Column<string>(nullable: true),
                     Capacity = table.Column<int>(nullable: false),
+                    CompanyOwned = table.Column<bool>(nullable: false),
                     LayoutDiagram = table.Column<byte[]>(nullable: true)
                 },
                 constraints: table =>
@@ -104,11 +105,9 @@ namespace OfficeManagementSystem.Migrations
                     Description = table.Column<string>(nullable: true),
                     StartDate = table.Column<DateTime>(nullable: false),
                     EndDate = table.Column<DateTime>(nullable: false),
-                    Location = table.Column<string>(nullable: true),
-                    Capacity = table.Column<int>(nullable: false),
                     CategoryID = table.Column<int>(nullable: false),
                     EventCategoriesID = table.Column<int>(nullable: true),
-                    VenuesID = table.Column<int>(nullable: true)
+                    VenuesID = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -124,7 +123,7 @@ namespace OfficeManagementSystem.Migrations
                         column: x => x.VenuesID,
                         principalTable: "Venues",
                         principalColumn: "ID",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
