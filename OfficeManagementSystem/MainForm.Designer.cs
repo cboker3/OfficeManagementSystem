@@ -28,10 +28,10 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.components = new System.ComponentModel.Container();
             this.menuEMS = new System.Windows.Forms.MenuStrip();
             this.loginToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.userLoginToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.createUserToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.viewToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.eventsToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.tasksToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
@@ -58,15 +58,25 @@
             this.generateReportsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.debugToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.dgvMain = new System.Windows.Forms.DataGridView();
-            this.eventsBindingSource = new System.Windows.Forms.BindingSource(this.components);
-            this.iDDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.nameDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.descriptionDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.startDateDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.endDateDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dgvExtra = new System.Windows.Forms.DataGridView();
+            this.cbxExtra = new System.Windows.Forms.ComboBox();
+            this.btnFirst = new System.Windows.Forms.Button();
+            this.btnPrev = new System.Windows.Forms.Button();
+            this.btnNext = new System.Windows.Forms.Button();
+            this.btnLast = new System.Windows.Forms.Button();
+            this.lblPages = new System.Windows.Forms.Label();
+            this.btnGoTo = new System.Windows.Forms.Button();
+            this.tbxPage = new System.Windows.Forms.TextBox();
+            this.tbxEPage = new System.Windows.Forms.TextBox();
+            this.btnEGoTo = new System.Windows.Forms.Button();
+            this.lblEPages = new System.Windows.Forms.Label();
+            this.btnELast = new System.Windows.Forms.Button();
+            this.btnENext = new System.Windows.Forms.Button();
+            this.btnEPrev = new System.Windows.Forms.Button();
+            this.btnEFirst = new System.Windows.Forms.Button();
             this.menuEMS.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvMain)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.eventsBindingSource)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvExtra)).BeginInit();
             this.SuspendLayout();
             // 
             // menuEMS
@@ -89,7 +99,8 @@
             // loginToolStripMenuItem
             // 
             this.loginToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.userLoginToolStripMenuItem});
+            this.userLoginToolStripMenuItem,
+            this.createUserToolStripMenuItem});
             this.loginToolStripMenuItem.Name = "loginToolStripMenuItem";
             this.loginToolStripMenuItem.Size = new System.Drawing.Size(49, 20);
             this.loginToolStripMenuItem.Text = "Login";
@@ -97,9 +108,16 @@
             // userLoginToolStripMenuItem
             // 
             this.userLoginToolStripMenuItem.Name = "userLoginToolStripMenuItem";
-            this.userLoginToolStripMenuItem.Size = new System.Drawing.Size(130, 22);
+            this.userLoginToolStripMenuItem.Size = new System.Drawing.Size(134, 22);
             this.userLoginToolStripMenuItem.Text = "User Login";
             this.userLoginToolStripMenuItem.Click += new System.EventHandler(this.userLoginToolStripMenuItem_Click);
+            // 
+            // createUserToolStripMenuItem
+            // 
+            this.createUserToolStripMenuItem.Name = "createUserToolStripMenuItem";
+            this.createUserToolStripMenuItem.Size = new System.Drawing.Size(134, 22);
+            this.createUserToolStripMenuItem.Text = "Create User";
+            this.createUserToolStripMenuItem.Click += new System.EventHandler(this.createUserToolStripMenuItem_Click);
             // 
             // viewToolStripMenuItem
             // 
@@ -125,24 +143,28 @@
             this.tasksToolStripMenuItem1.Name = "tasksToolStripMenuItem1";
             this.tasksToolStripMenuItem1.Size = new System.Drawing.Size(127, 22);
             this.tasksToolStripMenuItem1.Text = "Tasks";
+            this.tasksToolStripMenuItem1.Click += new System.EventHandler(this.tasksToolStripMenuItem1_Click);
             // 
             // venuesToolStripMenuItem1
             // 
             this.venuesToolStripMenuItem1.Name = "venuesToolStripMenuItem1";
             this.venuesToolStripMenuItem1.Size = new System.Drawing.Size(127, 22);
             this.venuesToolStripMenuItem1.Text = "Venues";
+            this.venuesToolStripMenuItem1.Click += new System.EventHandler(this.venuesToolStripMenuItem1_Click);
             // 
             // contactsToolStripMenuItem
             // 
             this.contactsToolStripMenuItem.Name = "contactsToolStripMenuItem";
             this.contactsToolStripMenuItem.Size = new System.Drawing.Size(127, 22);
             this.contactsToolStripMenuItem.Text = "Contacts";
+            this.contactsToolStripMenuItem.Click += new System.EventHandler(this.contactsToolStripMenuItem_Click);
             // 
             // resourcesToolStripMenuItem
             // 
             this.resourcesToolStripMenuItem.Name = "resourcesToolStripMenuItem";
             this.resourcesToolStripMenuItem.Size = new System.Drawing.Size(127, 22);
             this.resourcesToolStripMenuItem.Text = "Resources";
+            this.resourcesToolStripMenuItem.Click += new System.EventHandler(this.resourcesToolStripMenuItem_Click);
             // 
             // eventsToolStripMenuItem
             // 
@@ -280,68 +302,172 @@
             // 
             // dgvMain
             // 
-            this.dgvMain.AllowUserToAddRows = false;
-            this.dgvMain.AllowUserToDeleteRows = false;
-            this.dgvMain.AllowUserToOrderColumns = true;
-            this.dgvMain.AutoGenerateColumns = false;
             this.dgvMain.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dgvMain.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.iDDataGridViewTextBoxColumn,
-            this.nameDataGridViewTextBoxColumn,
-            this.descriptionDataGridViewTextBoxColumn,
-            this.startDateDataGridViewTextBoxColumn,
-            this.endDateDataGridViewTextBoxColumn});
-            this.dgvMain.DataSource = this.eventsBindingSource;
-            this.dgvMain.Location = new System.Drawing.Point(12, 149);
+            this.dgvMain.Location = new System.Drawing.Point(12, 97);
             this.dgvMain.Name = "dgvMain";
-            this.dgvMain.ReadOnly = true;
-            this.dgvMain.Size = new System.Drawing.Size(800, 300);
+            this.dgvMain.Size = new System.Drawing.Size(800, 310);
             this.dgvMain.TabIndex = 1;
+            this.dgvMain.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvMain_CellContentClick_1);
             // 
-            // eventsBindingSource
+            // dgvExtra
             // 
-            this.eventsBindingSource.DataSource = typeof(OfficeManagementSystem.Models.Events);
+            this.dgvExtra.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dgvExtra.Location = new System.Drawing.Point(12, 440);
+            this.dgvExtra.Name = "dgvExtra";
+            this.dgvExtra.Size = new System.Drawing.Size(800, 287);
+            this.dgvExtra.TabIndex = 2;
             // 
-            // iDDataGridViewTextBoxColumn
+            // cbxExtra
             // 
-            this.iDDataGridViewTextBoxColumn.DataPropertyName = "ID";
-            this.iDDataGridViewTextBoxColumn.HeaderText = "ID";
-            this.iDDataGridViewTextBoxColumn.Name = "iDDataGridViewTextBoxColumn";
-            this.iDDataGridViewTextBoxColumn.ReadOnly = true;
+            this.cbxExtra.FormattingEnabled = true;
+            this.cbxExtra.Location = new System.Drawing.Point(626, 413);
+            this.cbxExtra.Name = "cbxExtra";
+            this.cbxExtra.Size = new System.Drawing.Size(186, 21);
+            this.cbxExtra.TabIndex = 3;
             // 
-            // nameDataGridViewTextBoxColumn
+            // btnFirst
             // 
-            this.nameDataGridViewTextBoxColumn.DataPropertyName = "Name";
-            this.nameDataGridViewTextBoxColumn.HeaderText = "Name";
-            this.nameDataGridViewTextBoxColumn.Name = "nameDataGridViewTextBoxColumn";
-            this.nameDataGridViewTextBoxColumn.ReadOnly = true;
+            this.btnFirst.Location = new System.Drawing.Point(12, 411);
+            this.btnFirst.Name = "btnFirst";
+            this.btnFirst.Size = new System.Drawing.Size(75, 25);
+            this.btnFirst.TabIndex = 4;
+            this.btnFirst.Text = "<<";
+            this.btnFirst.UseVisualStyleBackColor = true;
             // 
-            // descriptionDataGridViewTextBoxColumn
+            // btnPrev
             // 
-            this.descriptionDataGridViewTextBoxColumn.DataPropertyName = "Description";
-            this.descriptionDataGridViewTextBoxColumn.HeaderText = "Description";
-            this.descriptionDataGridViewTextBoxColumn.Name = "descriptionDataGridViewTextBoxColumn";
-            this.descriptionDataGridViewTextBoxColumn.ReadOnly = true;
+            this.btnPrev.Location = new System.Drawing.Point(93, 411);
+            this.btnPrev.Name = "btnPrev";
+            this.btnPrev.Size = new System.Drawing.Size(75, 25);
+            this.btnPrev.TabIndex = 5;
+            this.btnPrev.Text = "<";
+            this.btnPrev.UseVisualStyleBackColor = true;
             // 
-            // startDateDataGridViewTextBoxColumn
+            // btnNext
             // 
-            this.startDateDataGridViewTextBoxColumn.DataPropertyName = "StartDate";
-            this.startDateDataGridViewTextBoxColumn.HeaderText = "StartDate";
-            this.startDateDataGridViewTextBoxColumn.Name = "startDateDataGridViewTextBoxColumn";
-            this.startDateDataGridViewTextBoxColumn.ReadOnly = true;
+            this.btnNext.Location = new System.Drawing.Point(174, 411);
+            this.btnNext.Name = "btnNext";
+            this.btnNext.Size = new System.Drawing.Size(75, 25);
+            this.btnNext.TabIndex = 6;
+            this.btnNext.Text = ">";
+            this.btnNext.UseVisualStyleBackColor = true;
             // 
-            // endDateDataGridViewTextBoxColumn
+            // btnLast
             // 
-            this.endDateDataGridViewTextBoxColumn.DataPropertyName = "EndDate";
-            this.endDateDataGridViewTextBoxColumn.HeaderText = "EndDate";
-            this.endDateDataGridViewTextBoxColumn.Name = "endDateDataGridViewTextBoxColumn";
-            this.endDateDataGridViewTextBoxColumn.ReadOnly = true;
+            this.btnLast.Location = new System.Drawing.Point(255, 411);
+            this.btnLast.Name = "btnLast";
+            this.btnLast.Size = new System.Drawing.Size(75, 25);
+            this.btnLast.TabIndex = 7;
+            this.btnLast.Text = ">>";
+            this.btnLast.UseVisualStyleBackColor = true;
+            // 
+            // lblPages
+            // 
+            this.lblPages.AutoSize = true;
+            this.lblPages.Location = new System.Drawing.Point(452, 417);
+            this.lblPages.Name = "lblPages";
+            this.lblPages.Size = new System.Drawing.Size(12, 13);
+            this.lblPages.TabIndex = 8;
+            this.lblPages.Text = "/";
+            // 
+            // btnGoTo
+            // 
+            this.btnGoTo.Location = new System.Drawing.Point(500, 413);
+            this.btnGoTo.Name = "btnGoTo";
+            this.btnGoTo.Size = new System.Drawing.Size(75, 23);
+            this.btnGoTo.TabIndex = 9;
+            this.btnGoTo.Text = "Go To Page";
+            this.btnGoTo.UseVisualStyleBackColor = true;
+            // 
+            // tbxPage
+            // 
+            this.tbxPage.Location = new System.Drawing.Point(394, 413);
+            this.tbxPage.Name = "tbxPage";
+            this.tbxPage.Size = new System.Drawing.Size(52, 20);
+            this.tbxPage.TabIndex = 10;
+            // 
+            // tbxEPage
+            // 
+            this.tbxEPage.Location = new System.Drawing.Point(394, 735);
+            this.tbxEPage.Name = "tbxEPage";
+            this.tbxEPage.Size = new System.Drawing.Size(52, 20);
+            this.tbxEPage.TabIndex = 17;
+            // 
+            // btnEGoTo
+            // 
+            this.btnEGoTo.Location = new System.Drawing.Point(500, 735);
+            this.btnEGoTo.Name = "btnEGoTo";
+            this.btnEGoTo.Size = new System.Drawing.Size(75, 23);
+            this.btnEGoTo.TabIndex = 16;
+            this.btnEGoTo.Text = "Go To Page";
+            this.btnEGoTo.UseVisualStyleBackColor = true;
+            // 
+            // lblEPages
+            // 
+            this.lblEPages.AutoSize = true;
+            this.lblEPages.Location = new System.Drawing.Point(452, 739);
+            this.lblEPages.Name = "lblEPages";
+            this.lblEPages.Size = new System.Drawing.Size(12, 13);
+            this.lblEPages.TabIndex = 15;
+            this.lblEPages.Text = "/";
+            // 
+            // btnELast
+            // 
+            this.btnELast.Location = new System.Drawing.Point(255, 733);
+            this.btnELast.Name = "btnELast";
+            this.btnELast.Size = new System.Drawing.Size(75, 25);
+            this.btnELast.TabIndex = 14;
+            this.btnELast.Text = ">>";
+            this.btnELast.UseVisualStyleBackColor = true;
+            // 
+            // btnENext
+            // 
+            this.btnENext.Location = new System.Drawing.Point(174, 733);
+            this.btnENext.Name = "btnENext";
+            this.btnENext.Size = new System.Drawing.Size(75, 25);
+            this.btnENext.TabIndex = 13;
+            this.btnENext.Text = ">";
+            this.btnENext.UseVisualStyleBackColor = true;
+            // 
+            // btnEPrev
+            // 
+            this.btnEPrev.Location = new System.Drawing.Point(93, 733);
+            this.btnEPrev.Name = "btnEPrev";
+            this.btnEPrev.Size = new System.Drawing.Size(75, 25);
+            this.btnEPrev.TabIndex = 12;
+            this.btnEPrev.Text = "<";
+            this.btnEPrev.UseVisualStyleBackColor = true;
+            // 
+            // btnEFirst
+            // 
+            this.btnEFirst.Location = new System.Drawing.Point(12, 733);
+            this.btnEFirst.Name = "btnEFirst";
+            this.btnEFirst.Size = new System.Drawing.Size(75, 25);
+            this.btnEFirst.TabIndex = 11;
+            this.btnEFirst.Text = "<<";
+            this.btnEFirst.UseVisualStyleBackColor = true;
             // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(824, 461);
+            this.ClientSize = new System.Drawing.Size(824, 769);
+            this.Controls.Add(this.tbxEPage);
+            this.Controls.Add(this.btnEGoTo);
+            this.Controls.Add(this.lblEPages);
+            this.Controls.Add(this.btnELast);
+            this.Controls.Add(this.btnENext);
+            this.Controls.Add(this.btnEPrev);
+            this.Controls.Add(this.btnEFirst);
+            this.Controls.Add(this.tbxPage);
+            this.Controls.Add(this.btnGoTo);
+            this.Controls.Add(this.lblPages);
+            this.Controls.Add(this.btnLast);
+            this.Controls.Add(this.btnNext);
+            this.Controls.Add(this.btnPrev);
+            this.Controls.Add(this.btnFirst);
+            this.Controls.Add(this.cbxExtra);
+            this.Controls.Add(this.dgvExtra);
             this.Controls.Add(this.dgvMain);
             this.Controls.Add(this.menuEMS);
             this.MainMenuStrip = this.menuEMS;
@@ -351,7 +477,7 @@
             this.menuEMS.ResumeLayout(false);
             this.menuEMS.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvMain)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.eventsBindingSource)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvExtra)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -379,7 +505,6 @@
         private System.Windows.Forms.ToolStripMenuItem reportsToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem generateReportsToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem debugToolStripMenuItem;
-        private System.Windows.Forms.DataGridView dgvMain;
         private System.Windows.Forms.ToolStripMenuItem taskTrackingToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem venueSchedulingToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem viewToolStripMenuItem;
@@ -388,11 +513,23 @@
         private System.Windows.Forms.ToolStripMenuItem venuesToolStripMenuItem1;
         private System.Windows.Forms.ToolStripMenuItem contactsToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem resourcesToolStripMenuItem;
-        private System.Windows.Forms.DataGridViewTextBoxColumn iDDataGridViewTextBoxColumn;
-        private System.Windows.Forms.DataGridViewTextBoxColumn nameDataGridViewTextBoxColumn;
-        private System.Windows.Forms.DataGridViewTextBoxColumn descriptionDataGridViewTextBoxColumn;
-        private System.Windows.Forms.DataGridViewTextBoxColumn startDateDataGridViewTextBoxColumn;
-        private System.Windows.Forms.DataGridViewTextBoxColumn endDateDataGridViewTextBoxColumn;
-        private System.Windows.Forms.BindingSource eventsBindingSource;
+        private System.Windows.Forms.ToolStripMenuItem createUserToolStripMenuItem;
+        private System.Windows.Forms.DataGridView dgvMain;
+        private System.Windows.Forms.DataGridView dgvExtra;
+        private System.Windows.Forms.ComboBox cbxExtra;
+        private System.Windows.Forms.Button btnFirst;
+        private System.Windows.Forms.Button btnPrev;
+        private System.Windows.Forms.Button btnNext;
+        private System.Windows.Forms.Button btnLast;
+        private System.Windows.Forms.Label lblPages;
+        private System.Windows.Forms.Button btnGoTo;
+        private System.Windows.Forms.TextBox tbxPage;
+        private System.Windows.Forms.TextBox tbxEPage;
+        private System.Windows.Forms.Button btnEGoTo;
+        private System.Windows.Forms.Label lblEPages;
+        private System.Windows.Forms.Button btnELast;
+        private System.Windows.Forms.Button btnENext;
+        private System.Windows.Forms.Button btnEPrev;
+        private System.Windows.Forms.Button btnEFirst;
     }
 }

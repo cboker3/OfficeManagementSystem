@@ -29,6 +29,8 @@
         private void InitializeComponent()
         {
             this.gpbVenue = new System.Windows.Forms.GroupBox();
+            this.pbxVenue = new System.Windows.Forms.PictureBox();
+            this.btnAddVenue = new System.Windows.Forms.Button();
             this.tbxCapacity = new System.Windows.Forms.TextBox();
             this.tbxAddress = new System.Windows.Forms.TextBox();
             this.lblAddress = new System.Windows.Forms.Label();
@@ -47,8 +49,6 @@
             this.lblEventCat = new System.Windows.Forms.Label();
             this.cbxEventCat = new System.Windows.Forms.ComboBox();
             this.btnEdit = new System.Windows.Forms.Button();
-            this.btnAddVenue = new System.Windows.Forms.Button();
-            this.pbxVenue = new System.Windows.Forms.PictureBox();
             this.gpbVenue.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pbxVenue)).BeginInit();
             this.SuspendLayout();
@@ -68,6 +68,24 @@
             this.gpbVenue.TabIndex = 0;
             this.gpbVenue.TabStop = false;
             this.gpbVenue.Text = "Venue";
+            // 
+            // pbxVenue
+            // 
+            this.pbxVenue.Location = new System.Drawing.Point(158, 12);
+            this.pbxVenue.Name = "pbxVenue";
+            this.pbxVenue.Size = new System.Drawing.Size(165, 176);
+            this.pbxVenue.TabIndex = 7;
+            this.pbxVenue.TabStop = false;
+            // 
+            // btnAddVenue
+            // 
+            this.btnAddVenue.Location = new System.Drawing.Point(47, 164);
+            this.btnAddVenue.Name = "btnAddVenue";
+            this.btnAddVenue.Size = new System.Drawing.Size(105, 23);
+            this.btnAddVenue.TabIndex = 6;
+            this.btnAddVenue.Text = "Add Venue";
+            this.btnAddVenue.UseVisualStyleBackColor = true;
+            this.btnAddVenue.Click += new System.EventHandler(this.btnAddVenue_Click);
             // 
             // tbxCapacity
             // 
@@ -112,6 +130,7 @@
             this.cbxVenueSelect.Size = new System.Drawing.Size(146, 21);
             this.cbxVenueSelect.TabIndex = 0;
             this.cbxVenueSelect.SelectedIndexChanged += new System.EventHandler(this.cbxVenueSelect_SelectedIndexChanged);
+            this.cbxVenueSelect.TextUpdate += new System.EventHandler(this.cbxVenueSelect_TextUpdate);
             // 
             // lblName
             // 
@@ -182,6 +201,7 @@
             this.dtpEndDate.Size = new System.Drawing.Size(200, 20);
             this.dtpEndDate.TabIndex = 7;
             this.dtpEndDate.Tag = "End Date";
+            this.dtpEndDate.ValueChanged += new System.EventHandler(this.dtpEndDate_ValueChanged);
             // 
             // btnCreate
             // 
@@ -201,6 +221,7 @@
             this.btnCancel.TabIndex = 10;
             this.btnCancel.Text = "Cancel";
             this.btnCancel.UseVisualStyleBackColor = true;
+            this.btnCancel.Click += new System.EventHandler(this.btnCancel_Click);
             // 
             // lblEventCat
             // 
@@ -213,6 +234,7 @@
             // 
             // cbxEventCat
             // 
+            this.cbxEventCat.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cbxEventCat.FormattingEnabled = true;
             this.cbxEventCat.Location = new System.Drawing.Point(120, 39);
             this.cbxEventCat.Name = "cbxEventCat";
@@ -227,23 +249,7 @@
             this.btnEdit.TabIndex = 12;
             this.btnEdit.Text = "Edit";
             this.btnEdit.UseVisualStyleBackColor = true;
-            // 
-            // btnAddVenue
-            // 
-            this.btnAddVenue.Location = new System.Drawing.Point(47, 164);
-            this.btnAddVenue.Name = "btnAddVenue";
-            this.btnAddVenue.Size = new System.Drawing.Size(105, 23);
-            this.btnAddVenue.TabIndex = 6;
-            this.btnAddVenue.Text = "Add Venue";
-            this.btnAddVenue.UseVisualStyleBackColor = true;
-            // 
-            // pbxVenue
-            // 
-            this.pbxVenue.Location = new System.Drawing.Point(158, 12);
-            this.pbxVenue.Name = "pbxVenue";
-            this.pbxVenue.Size = new System.Drawing.Size(165, 176);
-            this.pbxVenue.TabIndex = 7;
-            this.pbxVenue.TabStop = false;
+            this.btnEdit.Click += new System.EventHandler(this.btnEdit_Click);
             // 
             // EventForm
             // 
