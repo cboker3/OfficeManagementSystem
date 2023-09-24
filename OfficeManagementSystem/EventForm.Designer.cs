@@ -49,12 +49,14 @@
             this.lblEventCat = new System.Windows.Forms.Label();
             this.cbxEventCat = new System.Windows.Forms.ComboBox();
             this.btnEdit = new System.Windows.Forms.Button();
+            this.btnVenuePic = new System.Windows.Forms.Button();
             this.gpbVenue.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pbxVenue)).BeginInit();
             this.SuspendLayout();
             // 
             // gpbVenue
             // 
+            this.gpbVenue.Controls.Add(this.btnVenuePic);
             this.gpbVenue.Controls.Add(this.pbxVenue);
             this.gpbVenue.Controls.Add(this.btnAddVenue);
             this.gpbVenue.Controls.Add(this.tbxCapacity);
@@ -71,9 +73,9 @@
             // 
             // pbxVenue
             // 
-            this.pbxVenue.Location = new System.Drawing.Point(158, 12);
+            this.pbxVenue.Location = new System.Drawing.Point(158, 8);
             this.pbxVenue.Name = "pbxVenue";
-            this.pbxVenue.Size = new System.Drawing.Size(165, 176);
+            this.pbxVenue.Size = new System.Drawing.Size(165, 150);
             this.pbxVenue.TabIndex = 7;
             this.pbxVenue.TabStop = false;
             // 
@@ -251,6 +253,16 @@
             this.btnEdit.UseVisualStyleBackColor = true;
             this.btnEdit.Click += new System.EventHandler(this.btnEdit_Click);
             // 
+            // btnVenuePic
+            // 
+            this.btnVenuePic.Location = new System.Drawing.Point(247, 165);
+            this.btnVenuePic.Name = "btnVenuePic";
+            this.btnVenuePic.Size = new System.Drawing.Size(75, 23);
+            this.btnVenuePic.TabIndex = 8;
+            this.btnVenuePic.Text = "Edit Layout";
+            this.btnVenuePic.UseVisualStyleBackColor = true;
+            this.btnVenuePic.Click += new System.EventHandler(this.btnVenuePic_Click);
+            // 
             // EventForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -304,5 +316,6 @@
         private System.Windows.Forms.Button btnEdit;
         private System.Windows.Forms.PictureBox pbxVenue;
         private System.Windows.Forms.Button btnAddVenue;
+        private System.Windows.Forms.Button btnVenuePic;
     }
 }

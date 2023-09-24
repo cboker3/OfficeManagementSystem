@@ -24,6 +24,7 @@ namespace OfficeManagementSystem
     {
         OMScontext _OMScontext = new OMScontext();
         Events currentEvent;
+        Bitmap venueImage;
 
         public EventForm()
         {
@@ -164,6 +165,7 @@ namespace OfficeManagementSystem
                                 EventDescription = eventRecord.Description,
                                 VenueCapacity = venueRecord.Capacity,
                                 VenueAddress = venueRecord.Address,
+                                VenueImage = venueRecord.LayoutDiagram,
                                 Category = eventCatRecord.Name,
                                 EventStartDate = eventRecord.StartDate,
                                 EventEndDate = eventRecord.EndDate
@@ -180,12 +182,14 @@ namespace OfficeManagementSystem
                 dtpEndDate.Value = editEvent.EndDate;
 
                 cbxEventCat.SelectedIndex = cbxEventCat.Items.IndexOf(data.First().Category);
+
                 
                 if(cbxVenueSelect.Items.IndexOf(data.First().VenueName) == -1)
                 {
                     tbxAddress.Text = data.First().VenueAddress;
                     tbxCapacity.Text = data.First().VenueCapacity.ToString();
                     cbxVenueSelect.Text = data.First().VenueName;
+                    //venueImage = data.First().VenueImage;
                 }else
                 {
                     foreach (var item in cbxVenueSelect.Items)
@@ -217,9 +221,8 @@ namespace OfficeManagementSystem
             if (dtpEndDate.Value < dtpStartDate.Value)
             {
                 dtpEndDate.Value = dtpStartDate.Value.AddMinutes(1);
-                dtpEndDate.MinDate = dtpStartDate.Value;
             }
-
+            dtpEndDate.MinDate = dtpStartDate.Value;
         }
 
         private void dtpEndDate_ValueChanged(object sender, EventArgs e)
@@ -442,6 +445,23 @@ namespace OfficeManagementSystem
                 Validator.IsPresent(tbxCapacity) &&
                 Validator.IsWithinRange(tbxCapacity, 5, 1000);
             //throw new NotImplementedException();
+        }
+
+        private void addVenueImage()
+        {
+            OpenFileDialog openFileDialog1 = new OpenFileDialog();
+            openFileDialog1.Filter = "Image Files (*.bmp;*.jpg;*.jpeg,*.png)|*.BMP;*.JPG;*.JPEG;*.PNG";
+
+            if (openFileDialog1.ShowDialog() == DialogResult.OK)
+            {
+                venueImage = new Bitmap(openFileDialog1.FileName);
+                pbxVenue.Image = venueImage;
+            }
+        }
+
+        private void btnVenuePic_Click(object sender, EventArgs e)
+        {
+            addVenueImage();
         }
     }
 }

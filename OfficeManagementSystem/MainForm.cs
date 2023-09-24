@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 using System.Data;
 using System.Diagnostics;
 using System.Drawing;
@@ -15,39 +16,59 @@ using Microsoft.EntityFrameworkCore.Internal;
 using OfficeManagementSystem.Data;
 using OfficeManagementSystem.Models;
 
+using OfficeManagementSystem.Essential;
+using Validator = OfficeManagementSystem.Essential.Validator;
 
 namespace OfficeManagementSystem
 {
     public partial class MainForm : Form
     {
 
-        // Local Variables
+        /// <summary>
+        /// Local Variables
+        /// </summary>
         Users localUser = null; // Holds the current user for the system so we can send it around to other forms
         String pageTitle = "Event Management System"; // Holder for dynamic page title
         bool debug = true; // Allows us access to the Database so I can store and change items.
 
+        // Used in the DataGridView as points of changing events
         int modifyIndex;
         int deleteIndex;
+        int deleteEIndex;
+        // May need to add additional for extra datagrid...
 
+        // Used to store related objects to the context
         Events selectedEvent;
         Tasks selectedTask;
         Venues selectedVenue;
         Users selectedUser;
         Contacts selectedContact;
+        Attendees selectedAttendee;
 
+        // Used for the paging system
         private const int MaxRows = 10;
         private int totalRows = 0;
         private int pages = 0;
         private int totalERows = 0;
         private int ePages = 0;
 
-        OMScontext _OMScontext = new OMScontext();
+        // Used for keeping out certain columns.
+        List<string> extra = new List<string>{"ID","CategoryID",
+                "EventCategories", "Attendees", "Tasks",
+                "Resources", "BudgetItems", "Contacts", "VenuesID",
+                "Venues", "EventsID", "Events", };
 
+        //
+        string[] comboEventRelations = { "Attendees", "Tasks", "BudgetItems", "Resources" };
+
+        // Database context (Although it's not being used as much with the using statements...)
+        OMScontext _OMScontext = new OMScontext();
+        private BudgetItems selectedBudgetItem;
+        private Resources selectedResource;
 
         public MainForm()
         {
             InitializeComponent();
-
         }
 
         private void MainPage_Load(object sender, EventArgs e)
@@ -57,8 +78,19 @@ namespace OfficeManagementSystem
 
             dgvMain.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
 
+            // Trying to create paging system.
+            var eventsSet = _OMScontext.Events.OrderBy(p => p.StartDate).ToList();
+            totalRows = eventsSet.Count();
+            pages = totalRows / MaxRows;
+            if (totalRows % MaxRows != 0)
+            {
+                pages += 1;
+            }
+            lblPages.Text = "/ " + pages;
 
-            loadDataGridViewEvents();
+            DisplayEvents(1);
+
+            // End of Paging System.
 
             UpdateForm();
 
@@ -87,40 +119,10 @@ namespace OfficeManagementSystem
                 this.Text = pageTitle;
             }
 
-            
+            // Filling up the combobox
+            foreach (string item in comboEventRelations)
+                cbxExtra.Items.Add(item);
 
-            //cbxExtra.Items
-        }
-
-        private void UpdateDataGrid()
-        {
-
-            //totalRows = _OMScontext.
-            // I could make this more adaptable by making the queries be passed in, also
-            // I could overload this function and create more dataGrids based on how many?
-
-            // Clear existing columns
-            dgvMain.Columns.Clear();
-
-
-            // Queries the database for Events based on a select equry.
-            // ADDITIONAL: Will have to also join on Venue for the name of the venue
-            var query = from taskRecord in _OMScontext.Tasks
-                        join eventRecord in _OMScontext.Events
-                        on taskRecord.EventsID equals eventRecord.ID
-                        select new
-                        {
-                            Priority = taskRecord.Priority,
-                            Status = taskRecord.Status,
-                            DueDate = taskRecord.DueDate,
-                            Description = taskRecord.Description,
-                            Name = eventRecord.Name
-                        };
-
-            // Load the query information into data variable and made into a list
-            var data = query.ToList();
-            // Link the data to the data source of the DataGridView.
-            dgvMain.DataSource = data;
         }
 
         public void UpdateUser()
@@ -148,64 +150,6 @@ namespace OfficeManagementSystem
         {
             DBdebugForm debugForm = new DBdebugForm();
             debugForm.Show();
-        }
-
-        private void eventDetailsToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-
-
-
-            // EventForm editEventForm = new EventForm();
-            // Need to verify if an event is selected.
-            //editEventForm.editEvent(null);
-
-        }
-
-        private void eventsToolStripMenuItem1_Click(object sender, EventArgs e)
-        {
-            // Clear existing columns
-            dgvMain.Columns.Clear();
-
-            loadDataGridViewEvents();
-
-
-
-            //using (OMScontext context = new OMScontext())
-            //{
-            //    var data = from eventRecord in _OMScontext.Events
-            //               join eventCatRecord in _OMScontext.EventCategories
-            //               on eventRecord.CategoryID equals eventCatRecord.ID
-            //               join venueRecord in _OMScontext.Venues
-            //               on eventRecord.VenuesID equals venueRecord.ID
-            //               select new
-            //               {
-            //                   Name = eventRecord.Name,
-            //                   Category = eventCatRecord.Name,
-            //                   VenueName = venueRecord.Name,
-            //                   Description = eventRecord.Description,
-            //                   StartDate = eventRecord.StartDate,
-            //                   EndDate = eventRecord.EndDate
-            //               };
-
-            //    dgvMain.DataSource = data.ToList();
-            //    dgvMain.AutoGenerateColumns = true;
-            //}
-
-            //// Queries the database for Events based on a select equry.
-            //// ADDITIONAL: Will have to join on Venue to get the Name of the Venue, and maybe address?????
-            //var query = from eventRecord in _OMScontext.Events
-            //            join eventCatRecord in _OMScontext.EventCategories
-            //            on eventRecord.CategoryID equals eventCatRecord.ID
-            //            select new
-            //            {
-            //                Name = eventRecord.Name,
-            //                Category = eventCatRecord.Name
-            //            };
-
-            //// Load the query information into data variable and made into a list
-            //var data = query.ToList();
-            //// Link the data to the data source of the DataGridView.
-            //dgvMain.DataSource = data;
         }
 
         private void createEventToolStripMenuItem_Click(object sender, EventArgs e)
@@ -315,29 +259,19 @@ namespace OfficeManagementSystem
         }
 
 
-        private void loadDataGridViewEvents()
+        private void loadDataGridViewEvents(int skip, int take)
         {
+            dgvMain.Columns.Clear();
+
             List<string> extra = new List<string>{"ID","CategoryID",
                 "EventCategories", "Attendees", "Tasks",
                 "Resources", "BudgetItems", "Contacts", "VenuesID",
-                "Venues"};
+                "Venues", "EventsID", "Events", };
 
-            var eventsSet = _OMScontext.Events.OrderBy(p => p.StartDate).ToList();
+            var eventsSet = _OMScontext.Events.OrderBy(p => p.StartDate).Skip(skip).Take(take).ToList();
             dgvMain.DataSource = eventsSet;
-            
-            // Trying to create paging system.
-            totalRows = eventsSet.Count();
-            pages = totalRows / MaxRows;
-            if(totalRows % MaxRows != 0)
-            {
-                pages += 1;
-            }
-            lblPages.Text = "/ " + pages;
 
-            DisplayEvents(1);
-
-            // End of Paging System.
-
+            // Only displaying the columns that need to be displayed
             foreach(DataGridViewColumn column in dgvMain.Columns)
             {
                 foreach(string header in extra)
@@ -347,8 +281,12 @@ namespace OfficeManagementSystem
                 }
                 if (column.HeaderText.Equals("StartDate") || column.HeaderText.Equals("EndDate"))
                     column.DefaultCellStyle.Format = "MM/dd/yy";
+                // Could potentially edit columns as they are being found and comparing them with 
+                // the header text from inside this iterative group.
+
             }
 
+            // Creating the Delete and Modify Columns
             DataGridViewButtonColumn deleteColumn = new DataGridViewButtonColumn
             {
                 HeaderText = "",
@@ -367,20 +305,25 @@ namespace OfficeManagementSystem
             modifyIndex = dgvMain.Columns.Count;
             dgvMain.Columns.Add(modifyColumn);
 
-            Debug.WriteLine(dgvMain.Columns.Count);
-            Debug.WriteLine("Delete: " + deleteIndex);
-            Debug.WriteLine("Modify: " + modifyIndex);
+            //Debug.WriteLine(dgvMain.Columns.Count);
 
+            // Formating the DataGridView
+            dgvMain.AlternatingRowsDefaultCellStyle.BackColor = Color.AliceBlue;
             dgvMain.Columns[2].Width = 220;
             //dgvMain.Columns[2].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleRight;
 
-
-
+            // Pre-Select the first row, so there isn't a null exception thrown if the combobox for extra is changed first.
+            dgvMain.Rows[0].Selected = true;
+            //int eventID = Convert.ToInt32(dgvMain.Rows[0].Cells[0].Value.ToString().Trim());
+            //selectedEvent = _OMScontext.Events.Find(eventID);
+            //selectedEvent = _OMScontext.Events.First(p => p.ID == Convert.ToInt32(eventID));
         }
 
         private void DisplayEvents(int pageNumber)
         {
-            tbxPage.Text = pageNumber.ToString();int skip = MaxRows * (pageNumber - 1);
+            tbxPage.Text = pageNumber.ToString();
+            
+            int skip = MaxRows * (pageNumber - 1);
 
             int take = MaxRows;
             if(pageNumber == pages)
@@ -391,6 +334,8 @@ namespace OfficeManagementSystem
             {
                 take = totalRows;
             }
+
+            loadDataGridViewEvents(skip, take);
             //throw new NotImplementedException();
             EnableDisableButtons(pageNumber);
         }
@@ -432,19 +377,26 @@ namespace OfficeManagementSystem
         /// <param name="e"></param>
         private void dgvMain_CellContentClick_1(object sender, DataGridViewCellEventArgs e)
         {
-            Debug.WriteLine("Total Columns: " + dgvMain.Columns.Count);
-            Debug.WriteLine("Clicked location: " + e.ColumnIndex);
+            //Debug.WriteLine("Click!");
+            //Debug.WriteLine("Total Columns: " + dgvMain.Columns.Count);
+            //Debug.WriteLine("Clicked location: " + e.ColumnIndex);
             using(OMScontext context = new OMScontext())
             {
+                /*
+                 * Moved to SelectionChanged event to make it more responsive.
                 int eventID = Convert.ToInt32(dgvMain.Rows[e.RowIndex].Cells[0].Value.ToString().Trim());
                 selectedEvent = context.Events.Find(eventID);
                 selectedEvent = context.Events.First(p => p.ID == Convert.ToInt32(eventID));
+                */
 
+                // Placeholder if statement to check if a button was clicked
                 if (e.ColumnIndex == modifyIndex || e.ColumnIndex == deleteIndex)
                 { 
-                    Debug.WriteLine("Row Index: " + e.RowIndex);
-                    Debug.WriteLine("Row Index: " + dgvMain.Rows[e.RowIndex].Cells[0].Value.ToString().Trim());
+                    //Debug.WriteLine("Row Index: " + e.RowIndex);
+                    //Debug.WriteLine("Row Index: " + dgvMain.Rows[e.RowIndex].Cells[0].Value.ToString().Trim());
                 }
+
+                // Cascading if, checking which part of the row is clicked, Delete or Modified
                 if (e.ColumnIndex == modifyIndex)
                 {
                     Debug.WriteLine("Modify");
@@ -456,7 +408,7 @@ namespace OfficeManagementSystem
                 else if (e.ColumnIndex == deleteIndex)
                 {
                     //Debug.WriteLine("Delete");
-                    //DeleteProduct();
+                    DeleteEvent();
                 } else
                 {
                     // Load up dgvExtra with relative information based on what's in the cbxExtra
@@ -464,54 +416,227 @@ namespace OfficeManagementSystem
 
                 }
             }
+            // Moved to SelectionChanged
+            //loadExtraDataGrid();
         }
 
-        private void addVenueImage()
+        private void DeleteEvent()
         {
-            OpenFileDialog openFileDialog1 = new OpenFileDialog();
-            openFileDialog1.Filter = "Image Files (*.bmp;*.jpg;*.jpeg,*.png)|*.BMP;*.JPG;*.JPEG;*.PNG";
+            throw new NotImplementedException();
+        }
 
-            if (openFileDialog1.ShowDialog() == DialogResult.OK)
+        private void btnFirst_Click(object sender, EventArgs e)
+        {
+            DisplayEvents(1);
+        }
+
+        private void btnPrev_Click(object sender, EventArgs e)
+        {
+            int pageNumber = Convert.ToInt32(tbxPage.Text);
+            pageNumber -= 1;
+            DisplayEvents(pageNumber);
+        }
+
+        private void btnNext_Click(object sender, EventArgs e)
+        {
+            int pageNumber = Convert.ToInt32(tbxPage.Text);
+            pageNumber += 1;
+            DisplayEvents(pageNumber);
+        }
+
+        private void btnLast_Click(object sender, EventArgs e)
+        {
+            DisplayEvents(pages);
+        }
+
+        private void btnGoTo_Click(object sender, EventArgs e)
+        {
+            if(IsMainGotoValidData())
             {
-                //layoutDiagramPictureBox.Image = new Bitmap(openFileDialog1.FileName);
+                int pageNumber = Convert.ToInt32(tbxPage.Text);
+                DisplayEvents(pageNumber);
             }
         }
 
-        private void SwitchTo(String tableName)
+        private bool IsMainGotoValidData()
         {
-            _OMScontext.Events.Load();
-            dgvMain.DataSource =
-                _OMScontext.Events.Local.ToBindingList();
-            var currentTableType = typeof(Events);
+            return
+                Validator.IsPresent(tbxPage) &&
+                Validator.IsInteger(tbxPage);
+            //throw new NotImplementedException();
+        }
 
+        /// <summary>
+        ///  Extra Data Grid View
+        ///  
+        /// Displays associated items with the events that are selected. 
+        /// </summary>
 
-            // Clear existing columns
-            dgvMain.Columns.Clear();
+        private void cbxExtra_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            loadExtraDataGrid();
+        }
 
-            // Create columns for each property in the entity
-            foreach (var property in currentTableType.GetProperties())
+        private void loadExtraDataGrid()
+        {
+            dgvExtra.Columns.Clear();
+
+            //Debug.WriteLine("cbxExtra.Text: " + cbxExtra.Text);
+            //Debug.WriteLine("selectedEvent.ID: " + selectedEvent.ID);
+            switch (cbxExtra.Text)
             {
-                // Add a DataGridViewTextBoxColumn for each property
-                var column = new DataGridViewTextBoxColumn
+                case "":
+                    return;
+                    break;
+                case "Attendees":
+                    _OMScontext.Attendees.Load();
+                    dgvExtra.DataSource =
+                        _OMScontext.Attendees.Where(p => p.EventsID == selectedEvent.ID).ToList();
+                    break;
+                case "Tasks":
+                    _OMScontext.Tasks.Load();
+                    dgvExtra.DataSource =
+                        _OMScontext.Tasks.Where(p => p.EventsID == selectedEvent.ID).ToList();
+                    break;
+                case "BudgetItems":
+                    _OMScontext.BudgetItems.Load();
+                    dgvExtra.DataSource =
+                        _OMScontext.BudgetItems.Where(p => p.EventsID == selectedEvent.ID).ToList();
+                    break;
+                case "Resources":
+                    _OMScontext.Resources.Load();
+                    dgvExtra.DataSource =
+                        _OMScontext.Resources.Where(p => p.EventsID == selectedEvent.ID).ToList();
+                    break;
+                default:
+                    Debug.WriteLine("Welp!");
+                    throw new Exception("Welp.");
+                    break;
+            }
+
+            foreach (DataGridViewColumn column in dgvExtra.Columns)
+            {
+                foreach (string header in extra)
                 {
-                    HeaderText = property.Name,
-                    DataPropertyName = property.Name
-                };
-                dgvMain.Columns.Add(column);
+                    if (column.HeaderText.Equals(header))
+                        column.Visible = false;
+                }
+                if (column.HeaderText.Contains("Date"))
+                    column.DefaultCellStyle.Format = "MM/dd/yy";
+                // Could potentially edit columns as they are being found and comparing them with 
+                // the header text from inside this iterative group.
+
+                /* Use this to take the int values for the data values and replace them with words
+                 * Do this for Priority and Status.
+                 * Can also do this for the "paid" status of attendees. 
+                 * var combobox = (DataGridViewComboBoxColumn)dgvExtra.Columns["Priority"]
+                 * combobox.DisplayMember = "Name";
+                 * combobox.ValueMember = "ID";
+                 * combobox.DataSource = Get"list"
+                 * 
+                 */
+            }
+            // Creating the Delete and Modify Columns
+            DataGridViewButtonColumn deleteColumn = new DataGridViewButtonColumn
+            {
+                HeaderText = "",
+                UseColumnTextForButtonValue = true,
+                Text = "Delete"
+            };
+            deleteEIndex = dgvExtra.Columns.Count;
+            dgvExtra.Columns.Add(deleteColumn);
+        }
+
+        private void dgvExtra_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if(dgvExtra.CurrentCell != null && e.RowIndex > 0)
+            {
+                switch (cbxExtra.Text)
+                {
+                    case "":
+                        break;
+                    case "Attendees":
+                        int attendeesID = Convert.ToInt32(dgvMain.Rows[e.RowIndex].Cells[0].Value.ToString().Trim());
+                        selectedAttendee = _OMScontext.Attendees.First(p => p.ID == Convert.ToInt32(attendeesID));
+                        // Cascading if, checking which part of the row is clicked, Delete or Modified
+                        if (e.ColumnIndex == deleteEIndex)
+                        {
+                            //Debug.WriteLine("Delete");
+                            _OMScontext.Attendees.Remove(selectedAttendee);
+                        }
+                        break;
+                    case "Tasks":
+                        int tasksID = Convert.ToInt32(dgvExtra.Rows[e.RowIndex].Cells[0].Value.ToString().Trim());
+                        selectedTask = _OMScontext.Tasks.First(p => p.ID == Convert.ToInt32(tasksID));
+                        // Cascading if, checking which part of the row is clicked, Delete or Modified
+                        if (e.ColumnIndex == deleteEIndex)
+                        {
+                            _OMScontext.Tasks.Remove(selectedTask);
+                        }
+                        break;
+                    case "BudgetItems":
+                        int budgetItemsID = Convert.ToInt32(dgvExtra.Rows[e.RowIndex].Cells[0].Value.ToString().Trim());
+                        selectedBudgetItem = _OMScontext.BudgetItems.First(p => p.ID == Convert.ToInt32(budgetItemsID));
+                        // Cascading if, checking which part of the row is clicked, Delete or Modified
+                        if (e.ColumnIndex == deleteEIndex)
+                        {
+                            _OMScontext.BudgetItems.Remove(selectedBudgetItem);
+                        }
+                        break;
+                    case "Resources":
+                        int ResourcesID = Convert.ToInt32(dgvExtra.Rows[e.RowIndex].Cells[0].Value.ToString().Trim());
+                        selectedResource = _OMScontext.Resources.First(p => p.ID == Convert.ToInt32(ResourcesID));
+                        // Cascading if, checking which part of the row is clicked, Delete or Modified
+                        if (e.ColumnIndex == deleteEIndex)
+                        {
+                            _OMScontext.Resources.Remove(selectedResource);
+                        }
+                        break;
+                    default:
+                        Debug.WriteLine("Welp!");
+                        throw new Exception("Welp.");
+                        break;
+                }
+            }
+        }
+
+        private void dgvMain_SelectionChanged(object sender, EventArgs e)
+        {
+            if(dgvMain.SelectedRows.Count != 0)
+            {
+                int eventID = Convert.ToInt32(dgvMain.SelectedRows[0].Cells[0].Value.ToString().Trim());
+                selectedEvent = _OMScontext.Events.Find(eventID);
+                selectedEvent = _OMScontext.Events.First(p => p.ID == Convert.ToInt32(eventID));
+                loadExtraDataGrid();
             }
 
-            // Set the DataSource to refresh the DataGridView
-            // databaseDataGridView.DataSource = currentTable.ToList();
+            // If the selection changes, stop editing
+            //dgvExtra.BeginEdit(false);
+
         }
 
-        private void tcbMain_SelectedIndexChanged(object sender, EventArgs e)
+        private void dgvExtra_SelectionChanged(object sender, EventArgs e)
         {
-            
+            // If the selection changes, stop editing
+            //dgvExtra.BeginEdit(false);
         }
 
-        private void saveToolStripButton_Click(object sender, EventArgs e)
+        private void btnModify_Click(object sender, EventArgs e)
         {
+            if (!(dgvExtra.CurrentCell == null))
+            {
+                dgvExtra.BeginEdit(true);
+            } else
+            {
+                MessageBox.Show("Please select a cell to edit.");
+            }
+        }
 
+        private void dgvExtra_DataSourceChanged(object sender, EventArgs e)
+        {
+            // MAGIC! FREAKING MAGIC
+            // Why does this save the changes even if I immediately exit the program after making the change?!?!
+            _OMScontext.SaveChanges();
         }
     }
 }

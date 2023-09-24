@@ -41,7 +41,6 @@
             this.eventsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.createEventToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
-            this.eventDetailsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.eventRegistrationToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.eventResourcesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.tasksToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -74,6 +73,7 @@
             this.btnENext = new System.Windows.Forms.Button();
             this.btnEPrev = new System.Windows.Forms.Button();
             this.btnEFirst = new System.Windows.Forms.Button();
+            this.btnModify = new System.Windows.Forms.Button();
             this.menuEMS.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvMain)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dgvExtra)).BeginInit();
@@ -136,7 +136,6 @@
             this.eventsToolStripMenuItem1.Name = "eventsToolStripMenuItem1";
             this.eventsToolStripMenuItem1.Size = new System.Drawing.Size(127, 22);
             this.eventsToolStripMenuItem1.Text = "Events";
-            this.eventsToolStripMenuItem1.Click += new System.EventHandler(this.eventsToolStripMenuItem1_Click);
             // 
             // tasksToolStripMenuItem1
             // 
@@ -171,7 +170,6 @@
             this.eventsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.createEventToolStripMenuItem,
             this.toolStripSeparator2,
-            this.eventDetailsToolStripMenuItem,
             this.eventRegistrationToolStripMenuItem,
             this.eventResourcesToolStripMenuItem});
             this.eventsToolStripMenuItem.Name = "eventsToolStripMenuItem";
@@ -189,13 +187,6 @@
             // 
             this.toolStripSeparator2.Name = "toolStripSeparator2";
             this.toolStripSeparator2.Size = new System.Drawing.Size(166, 6);
-            // 
-            // eventDetailsToolStripMenuItem
-            // 
-            this.eventDetailsToolStripMenuItem.Name = "eventDetailsToolStripMenuItem";
-            this.eventDetailsToolStripMenuItem.Size = new System.Drawing.Size(169, 22);
-            this.eventDetailsToolStripMenuItem.Text = "Event Details";
-            this.eventDetailsToolStripMenuItem.Click += new System.EventHandler(this.eventDetailsToolStripMenuItem_Click);
             // 
             // eventRegistrationToolStripMenuItem
             // 
@@ -302,28 +293,50 @@
             // 
             // dgvMain
             // 
+            this.dgvMain.AllowUserToAddRows = false;
+            this.dgvMain.AllowUserToDeleteRows = false;
+            this.dgvMain.AllowUserToResizeColumns = false;
+            this.dgvMain.AllowUserToResizeRows = false;
+            this.dgvMain.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.dgvMain.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgvMain.Location = new System.Drawing.Point(12, 97);
             this.dgvMain.Name = "dgvMain";
+            this.dgvMain.ReadOnly = true;
             this.dgvMain.Size = new System.Drawing.Size(800, 310);
             this.dgvMain.TabIndex = 1;
             this.dgvMain.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvMain_CellContentClick_1);
+            this.dgvMain.SelectionChanged += new System.EventHandler(this.dgvMain_SelectionChanged);
             // 
             // dgvExtra
             // 
+            this.dgvExtra.AllowUserToAddRows = false;
+            this.dgvExtra.AllowUserToDeleteRows = false;
+            this.dgvExtra.AllowUserToResizeColumns = false;
+            this.dgvExtra.AllowUserToResizeRows = false;
+            this.dgvExtra.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.dgvExtra.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dgvExtra.Cursor = System.Windows.Forms.Cursors.Default;
+            this.dgvExtra.EditMode = System.Windows.Forms.DataGridViewEditMode.EditProgrammatically;
             this.dgvExtra.Location = new System.Drawing.Point(12, 440);
+            this.dgvExtra.MultiSelect = false;
             this.dgvExtra.Name = "dgvExtra";
+            this.dgvExtra.ReadOnly = true;
+            this.dgvExtra.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dgvExtra.Size = new System.Drawing.Size(800, 287);
             this.dgvExtra.TabIndex = 2;
+            this.dgvExtra.DataSourceChanged += new System.EventHandler(this.dgvExtra_DataSourceChanged);
+            this.dgvExtra.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvExtra_CellContentClick);
+            this.dgvExtra.SelectionChanged += new System.EventHandler(this.dgvExtra_SelectionChanged);
             // 
             // cbxExtra
             // 
+            this.cbxExtra.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cbxExtra.FormattingEnabled = true;
             this.cbxExtra.Location = new System.Drawing.Point(626, 413);
             this.cbxExtra.Name = "cbxExtra";
             this.cbxExtra.Size = new System.Drawing.Size(186, 21);
             this.cbxExtra.TabIndex = 3;
+            this.cbxExtra.SelectedIndexChanged += new System.EventHandler(this.cbxExtra_SelectedIndexChanged);
             // 
             // btnFirst
             // 
@@ -333,6 +346,7 @@
             this.btnFirst.TabIndex = 4;
             this.btnFirst.Text = "<<";
             this.btnFirst.UseVisualStyleBackColor = true;
+            this.btnFirst.Click += new System.EventHandler(this.btnFirst_Click);
             // 
             // btnPrev
             // 
@@ -342,6 +356,7 @@
             this.btnPrev.TabIndex = 5;
             this.btnPrev.Text = "<";
             this.btnPrev.UseVisualStyleBackColor = true;
+            this.btnPrev.Click += new System.EventHandler(this.btnPrev_Click);
             // 
             // btnNext
             // 
@@ -351,6 +366,7 @@
             this.btnNext.TabIndex = 6;
             this.btnNext.Text = ">";
             this.btnNext.UseVisualStyleBackColor = true;
+            this.btnNext.Click += new System.EventHandler(this.btnNext_Click);
             // 
             // btnLast
             // 
@@ -360,6 +376,7 @@
             this.btnLast.TabIndex = 7;
             this.btnLast.Text = ">>";
             this.btnLast.UseVisualStyleBackColor = true;
+            this.btnLast.Click += new System.EventHandler(this.btnLast_Click);
             // 
             // lblPages
             // 
@@ -378,6 +395,7 @@
             this.btnGoTo.TabIndex = 9;
             this.btnGoTo.Text = "Go To Page";
             this.btnGoTo.UseVisualStyleBackColor = true;
+            this.btnGoTo.Click += new System.EventHandler(this.btnGoTo_Click);
             // 
             // tbxPage
             // 
@@ -447,11 +465,22 @@
             this.btnEFirst.Text = "<<";
             this.btnEFirst.UseVisualStyleBackColor = true;
             // 
+            // btnModify
+            // 
+            this.btnModify.Location = new System.Drawing.Point(737, 735);
+            this.btnModify.Name = "btnModify";
+            this.btnModify.Size = new System.Drawing.Size(75, 23);
+            this.btnModify.TabIndex = 18;
+            this.btnModify.Text = "Modify";
+            this.btnModify.UseVisualStyleBackColor = true;
+            this.btnModify.Click += new System.EventHandler(this.btnModify_Click);
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(824, 769);
+            this.Controls.Add(this.btnModify);
             this.Controls.Add(this.tbxEPage);
             this.Controls.Add(this.btnEGoTo);
             this.Controls.Add(this.lblEPages);
@@ -489,7 +518,6 @@
         private System.Windows.Forms.ToolStripMenuItem eventsToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem createEventToolStripMenuItem;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
-        private System.Windows.Forms.ToolStripMenuItem eventDetailsToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem eventRegistrationToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem eventResourcesToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem tasksToolStripMenuItem;
@@ -531,5 +559,6 @@
         private System.Windows.Forms.Button btnENext;
         private System.Windows.Forms.Button btnEPrev;
         private System.Windows.Forms.Button btnEFirst;
+        private System.Windows.Forms.Button btnModify;
     }
 }
