@@ -610,10 +610,19 @@ namespace OfficeManagementSystem
         {
             if(dgvMain.SelectedRows.Count != 0)
             {
-                int eventID = Convert.ToInt32(dgvMain.SelectedRows[0].Cells[0].Value.ToString().Trim());
-                selectedEvent = _OMScontext.Events.Find(eventID);
-                selectedEvent = _OMScontext.Events.First(p => p.ID == Convert.ToInt32(eventID));
-                loadExtraDataGrid();
+                try
+                {
+                    int eventID = Convert.ToInt32(dgvMain.SelectedRows[0].Cells[0].Value.ToString().Trim());
+                    selectedEvent = _OMScontext.Events.Find(eventID);
+                    selectedEvent = _OMScontext.Events.First(p => p.ID == Convert.ToInt32(eventID));
+                    loadExtraDataGrid();
+                }
+                catch(Exception whoops)
+                {
+
+                }
+
+
             }
 
             // If the selection changes, stop editing
@@ -693,6 +702,12 @@ namespace OfficeManagementSystem
         {
             BudgetTracking viewBudgetTracking = new BudgetTracking();
             viewBudgetTracking.displayBudgetTracking(localUser);
+        }
+
+        private void contactMessagesToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            ContactsForm viewContactsForm = new ContactsForm();
+            viewContactsForm.displayContactsForm(localUser);
         }
     }
 }

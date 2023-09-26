@@ -135,7 +135,7 @@
             // eventsToolStripMenuItem1
             // 
             this.eventsToolStripMenuItem1.Name = "eventsToolStripMenuItem1";
-            this.eventsToolStripMenuItem1.Size = new System.Drawing.Size(127, 22);
+            this.eventsToolStripMenuItem1.Size = new System.Drawing.Size(180, 22);
             this.eventsToolStripMenuItem1.Text = "Events";
             // 
             // tasksToolStripMenuItem1
@@ -250,6 +250,7 @@
             this.contactMessagesToolStripMenuItem.Name = "contactMessagesToolStripMenuItem";
             this.contactMessagesToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.contactMessagesToolStripMenuItem.Text = "Contacts";
+            this.contactMessagesToolStripMenuItem.Click += new System.EventHandler(this.contactMessagesToolStripMenuItem_Click);
             // 
             // venuesToolStripMenuItem
             // 

@@ -25,9 +25,10 @@ namespace OfficeManagementSystem.Forms
             InitializeComponent();
         }
 
-        internal void displayBudgetTracking(Users localUser)
+        public void displayBudgetTracking(Users localUser)
         {
-            throw new NotImplementedException();
+            currentUser = localUser;
+            this.Show();
         }
 
         private void budgetItemsBindingNavigatorSaveItem_Click(object sender, EventArgs e)
@@ -38,8 +39,8 @@ namespace OfficeManagementSystem.Forms
 
         private void BudgetTracking_Load(object sender, EventArgs e)
         {
-            _OMScontext.Tasks.Load();
-            budgetItemsBindingSource.DataSource = _OMScontext.Tasks.Local.ToBindingList();
+            _OMScontext.BudgetItems.Load();
+            budgetItemsBindingSource.DataSource = _OMScontext.BudgetItems.Local.ToBindingList();
         }
     }
 }

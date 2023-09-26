@@ -52,7 +52,7 @@
             this.eventsIDLabel1 = new System.Windows.Forms.Label();
             this.typeComboBox = new System.Windows.Forms.ComboBox();
             this.dateDateTimePicker = new System.Windows.Forms.DateTimePicker();
-            this.decriptionTextBox = new System.Windows.Forms.TextBox();
+            this.descriptionTextBox = new System.Windows.Forms.TextBox();
             this.amountTextBox = new System.Windows.Forms.TextBox();
             eventsIDLabel = new System.Windows.Forms.Label();
             typeLabel = new System.Windows.Forms.Label();
@@ -265,14 +265,14 @@
             this.dateDateTimePicker.Size = new System.Drawing.Size(121, 20);
             this.dateDateTimePicker.TabIndex = 6;
             // 
-            // decriptionTextBox
+            // descriptionTextBox
             // 
-            this.decriptionTextBox.DataBindings.Add(new System.Windows.Forms.Binding("Text", this.budgetItemsBindingSource, "Decription", true));
-            this.decriptionTextBox.Location = new System.Drawing.Point(79, 121);
-            this.decriptionTextBox.Multiline = true;
-            this.decriptionTextBox.Name = "decriptionTextBox";
-            this.decriptionTextBox.Size = new System.Drawing.Size(239, 86);
-            this.decriptionTextBox.TabIndex = 8;
+            this.descriptionTextBox.DataBindings.Add(new System.Windows.Forms.Binding("Text", this.budgetItemsBindingSource, "Description", true));
+            this.descriptionTextBox.Location = new System.Drawing.Point(79, 121);
+            this.descriptionTextBox.Multiline = true;
+            this.descriptionTextBox.Name = "descriptionTextBox";
+            this.descriptionTextBox.Size = new System.Drawing.Size(239, 86);
+            this.descriptionTextBox.TabIndex = 8;
             // 
             // amountTextBox
             // 
@@ -290,7 +290,7 @@
             this.Controls.Add(amountLabel);
             this.Controls.Add(this.amountTextBox);
             this.Controls.Add(decriptionLabel);
-            this.Controls.Add(this.decriptionTextBox);
+            this.Controls.Add(this.descriptionTextBox);
             this.Controls.Add(dateLabel);
             this.Controls.Add(this.dateDateTimePicker);
             this.Controls.Add(typeLabel);
@@ -329,7 +329,7 @@
         private System.Windows.Forms.Label eventsIDLabel1;
         private System.Windows.Forms.ComboBox typeComboBox;
         private System.Windows.Forms.DateTimePicker dateDateTimePicker;
-        private System.Windows.Forms.TextBox decriptionTextBox;
+        private System.Windows.Forms.TextBox descriptionTextBox;
         private System.Windows.Forms.TextBox amountTextBox;
     }
 }

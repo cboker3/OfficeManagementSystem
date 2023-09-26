@@ -10,13 +10,16 @@ using System.Windows.Forms;
 using OfficeManagementSystem.Data;
 using OfficeManagementSystem.Models;
 
+using OfficeManagementSystem.Data;
+using OfficeManagementSystem.Models;
+using Microsoft.EntityFrameworkCore;
+
 namespace OfficeManagementSystem.Forms
 {
     public partial class VenueAvailability : Form
     {
-        OMScontext dbContext = new OMScontext();
-
-        Users user;
+        OMScontext _OMScontext = new OMScontext();
+        Users currentUser;
 
         public VenueAvailability()
         {
@@ -50,17 +53,21 @@ namespace OfficeManagementSystem.Forms
                 // If the user is not an admin, hide the button
                 adminButton.Visible = false;
             }
+
+            // I don't understand this. Why does this work?
+            _OMScontext.Venues.Load();
+            venuesBindingSource.DataSource = _OMScontext.Venues.Local.ToBindingList();
         }
 
         private bool isAdmin()
         {
-            return (user.Role.Equals("Admin"));
+            return (currentUser.Role.Equals("Admin"));
             throw new NotImplementedException();
         }
 
         public void displayVenueAvailability(Users login)
         {
-            user = login;
+            currentUser = login;
 
             this.Show();
         }
