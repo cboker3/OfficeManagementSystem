@@ -10,7 +10,7 @@ namespace OfficeManagementSystem.Models
     {
         public int ID { get; set; }
         public int EventsID { get; set; }
-        public string Decription { get; set; }
+        public string Description { get; set; }
         public decimal Amount { get; set; }
         public int Type { get; set; }
         public DateTime Date { get; set; }

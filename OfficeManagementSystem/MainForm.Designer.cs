@@ -74,6 +74,7 @@
             this.btnEPrev = new System.Windows.Forms.Button();
             this.btnEFirst = new System.Windows.Forms.Button();
             this.btnModify = new System.Windows.Forms.Button();
+            this.budgetTrackingToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuEMS.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvMain)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dgvExtra)).BeginInit();
@@ -226,6 +227,7 @@
             this.taskTrackingToolStripMenuItem.Name = "taskTrackingToolStripMenuItem";
             this.taskTrackingToolStripMenuItem.Size = new System.Drawing.Size(143, 22);
             this.taskTrackingToolStripMenuItem.Text = "Task Tracking";
+            this.taskTrackingToolStripMenuItem.Click += new System.EventHandler(this.taskTrackingToolStripMenuItem_Click);
             // 
             // messagingToolStripMenuItem
             // 
@@ -233,20 +235,21 @@
             this.teamMessagesToolStripMenuItem,
             this.contactMessagesToolStripMenuItem});
             this.messagingToolStripMenuItem.Name = "messagingToolStripMenuItem";
-            this.messagingToolStripMenuItem.Size = new System.Drawing.Size(76, 20);
-            this.messagingToolStripMenuItem.Text = "Messaging";
+            this.messagingToolStripMenuItem.Size = new System.Drawing.Size(106, 20);
+            this.messagingToolStripMenuItem.Text = "Communication";
             // 
             // teamMessagesToolStripMenuItem
             // 
             this.teamMessagesToolStripMenuItem.Name = "teamMessagesToolStripMenuItem";
-            this.teamMessagesToolStripMenuItem.Size = new System.Drawing.Size(170, 22);
-            this.teamMessagesToolStripMenuItem.Text = "Team Messages";
+            this.teamMessagesToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.teamMessagesToolStripMenuItem.Text = "Internal Messaging";
+            this.teamMessagesToolStripMenuItem.Click += new System.EventHandler(this.teamMessagesToolStripMenuItem_Click);
             // 
             // contactMessagesToolStripMenuItem
             // 
             this.contactMessagesToolStripMenuItem.Name = "contactMessagesToolStripMenuItem";
-            this.contactMessagesToolStripMenuItem.Size = new System.Drawing.Size(170, 22);
-            this.contactMessagesToolStripMenuItem.Text = "Contact Messages";
+            this.contactMessagesToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.contactMessagesToolStripMenuItem.Text = "Contacts";
             // 
             // venuesToolStripMenuItem
             // 
@@ -262,17 +265,20 @@
             this.venueInformationToolStripMenuItem.Name = "venueInformationToolStripMenuItem";
             this.venueInformationToolStripMenuItem.Size = new System.Drawing.Size(172, 22);
             this.venueInformationToolStripMenuItem.Text = "Venue Information";
+            this.venueInformationToolStripMenuItem.Click += new System.EventHandler(this.venueInformationToolStripMenuItem_Click);
             // 
             // venueSchedulingToolStripMenuItem
             // 
             this.venueSchedulingToolStripMenuItem.Name = "venueSchedulingToolStripMenuItem";
             this.venueSchedulingToolStripMenuItem.Size = new System.Drawing.Size(172, 22);
             this.venueSchedulingToolStripMenuItem.Text = "Venue Scheduling";
+            this.venueSchedulingToolStripMenuItem.Click += new System.EventHandler(this.venueSchedulingToolStripMenuItem_Click);
             // 
             // reportsToolStripMenuItem
             // 
             this.reportsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.generateReportsToolStripMenuItem});
+            this.generateReportsToolStripMenuItem,
+            this.budgetTrackingToolStripMenuItem});
             this.reportsToolStripMenuItem.Name = "reportsToolStripMenuItem";
             this.reportsToolStripMenuItem.Size = new System.Drawing.Size(59, 20);
             this.reportsToolStripMenuItem.Text = "Reports";
@@ -280,8 +286,9 @@
             // generateReportsToolStripMenuItem
             // 
             this.generateReportsToolStripMenuItem.Name = "generateReportsToolStripMenuItem";
-            this.generateReportsToolStripMenuItem.Size = new System.Drawing.Size(164, 22);
+            this.generateReportsToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.generateReportsToolStripMenuItem.Text = "Generate Reports";
+            this.generateReportsToolStripMenuItem.Click += new System.EventHandler(this.generateReportsToolStripMenuItem_Click);
             // 
             // debugToolStripMenuItem
             // 
@@ -475,6 +482,13 @@
             this.btnModify.UseVisualStyleBackColor = true;
             this.btnModify.Click += new System.EventHandler(this.btnModify_Click);
             // 
+            // budgetTrackingToolStripMenuItem
+            // 
+            this.budgetTrackingToolStripMenuItem.Name = "budgetTrackingToolStripMenuItem";
+            this.budgetTrackingToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.budgetTrackingToolStripMenuItem.Text = "Budget Tracking";
+            this.budgetTrackingToolStripMenuItem.Click += new System.EventHandler(this.budgetTrackingToolStripMenuItem_Click);
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -560,5 +574,6 @@
         private System.Windows.Forms.Button btnEPrev;
         private System.Windows.Forms.Button btnEFirst;
         private System.Windows.Forms.Button btnModify;
+        private System.Windows.Forms.ToolStripMenuItem budgetTrackingToolStripMenuItem;
     }
 }

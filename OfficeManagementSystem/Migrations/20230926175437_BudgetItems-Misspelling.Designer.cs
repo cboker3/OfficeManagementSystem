@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using OfficeManagementSystem.Data;
 
 namespace OfficeManagementSystem.Migrations
 {
     [DbContext(typeof(OMScontext))]
-    partial class OMScontextModelSnapshot : ModelSnapshot
+    [Migration("20230926175437_BudgetItems-Misspelling")]
+    partial class BudgetItemsMisspelling
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

@@ -18,6 +18,8 @@ using OfficeManagementSystem.Models;
 
 using OfficeManagementSystem.Essential;
 using Validator = OfficeManagementSystem.Essential.Validator;
+using OfficeManagementSystem.Forms;
+using System.IdentityModel.Selectors;
 
 namespace OfficeManagementSystem
 {
@@ -106,6 +108,8 @@ namespace OfficeManagementSystem
 
         private void UpdateForm()
         {
+
+
             debugToolStripMenuItem.Visible = debug;
 
 
@@ -119,6 +123,7 @@ namespace OfficeManagementSystem
                 this.Text = pageTitle;
             }
 
+            cbxExtra.Items.Clear();
             // Filling up the combobox
             foreach (string item in comboEventRelations)
                 cbxExtra.Items.Add(item);
@@ -156,6 +161,7 @@ namespace OfficeManagementSystem
         {
             EventForm createEventForm = new EventForm();
             createEventForm.createEvent();
+            UpdateForm();
 
         }
 
@@ -637,6 +643,56 @@ namespace OfficeManagementSystem
             // MAGIC! FREAKING MAGIC
             // Why does this save the changes even if I immediately exit the program after making the change?!?!
             _OMScontext.SaveChanges();
+        }
+
+        private void venueSchedulingToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            VenueAvailability viewVenue = new VenueAvailability();
+
+            Users tempUser = new Users();
+            tempUser.Role = "Admin";
+            tempUser.Username = "tempUser";
+
+            if (localUser != null)
+            {
+                viewVenue.displayVenueAvailability(localUser);
+                UpdateForm();
+            }
+            else
+            {
+                //MessageBox.Show("Please login");
+                viewVenue.displayVenueAvailability(tempUser);
+            }
+        }
+
+        private void venueInformationToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            VenueInformation venueInfo = new VenueInformation();
+            venueInfo.displayVenueInformation(localUser);
+        }
+
+        private void taskTrackingToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            TaskTracking viewTaskTracking = new TaskTracking();
+            viewTaskTracking.displayTaskTracking(localUser);
+        }
+
+        private void teamMessagesToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            InternalMessage viewInternalMessage = new InternalMessage();
+            viewInternalMessage.displayInternalMessage(localUser);
+        }
+
+        private void generateReportsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            ExpenseManagementForm viewExpenseManagment = new ExpenseManagementForm();
+            viewExpenseManagment.displayExpenseManagment(localUser);
+        }
+
+        private void budgetTrackingToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            BudgetTracking viewBudgetTracking = new BudgetTracking();
+            viewBudgetTracking.displayBudgetTracking(localUser);
         }
     }
 }
