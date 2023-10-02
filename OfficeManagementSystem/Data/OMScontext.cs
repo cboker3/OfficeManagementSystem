@@ -47,10 +47,24 @@ namespace OfficeManagementSystem.Data
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            //DataGenerator _fakers = new DataGenerator();
-            //SeedData();
+
             base.OnModelCreating(modelBuilder);
-            //modelBuilder.Entity<Messages>().HasData(_fakers.GetUserGenerator().Generate(5));
+
+            var datagenerator = new DataGenerator();
+
+
+            modelBuilder.Entity<Venues>().HasData(datagenerator.venues);
+            modelBuilder.Entity<EventCategories>().HasData(datagenerator.eventCategories);
+            modelBuilder.Entity<Events>().HasData(datagenerator.events);
+            modelBuilder.Entity<Attendees>().HasData(datagenerator.attendees);
+            modelBuilder.Entity<BudgetItems>().HasData(datagenerator.budgetItems);
+            modelBuilder.Entity<Contacts>().HasData(datagenerator.contacts);
+            modelBuilder.Entity<Messages>().HasData(datagenerator.messages);
+            modelBuilder.Entity<Resources>().HasData(datagenerator.resources);
+            modelBuilder.Entity<Tasks>().HasData(datagenerator.tasks);
+            modelBuilder.Entity<Users>().HasData(datagenerator.users);
+
+
         }
     }
 }

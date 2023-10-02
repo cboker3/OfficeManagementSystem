@@ -13,6 +13,8 @@ using OfficeManagementSystem.Models;
 using Bogus;
 using System.Diagnostics;
 using OfficeManagementSystem.Data;
+using Org.BouncyCastle.Utilities;
+using System.Collections.Immutable;
 
 namespace OfficeManagementSystem.Data
 {
@@ -20,162 +22,186 @@ namespace OfficeManagementSystem.Data
     public class DataGenerator
     {
         OMScontext dbContext = new OMScontext();
+        int fakerConst = 8675309;
 
         Faker<Attendees> attendeeFaker;
         Faker<Events> eventFaker;
         Faker<Messages> messageFaker;
         Faker<Users> userFaker;
 
+        public IReadOnlyCollection<Attendees> attendees { get; } = new List<Attendees>();
+        public IReadOnlyCollection<BudgetItems> budgetItems { get; } = new List<BudgetItems>();
+        public IReadOnlyCollection<Contacts> contacts { get; } = new List<Contacts>();
+        public IReadOnlyCollection<EventCategories> eventCategories { get; } = new List<EventCategories>();
+        public IReadOnlyCollection<Events> events { get; } = new List<Events>();
+        public IReadOnlyCollection<Messages> messages { get; } = new List<Messages>();
+        public IReadOnlyCollection<Resources> resources { get; } = new List<Resources>();
+        public IReadOnlyCollection<Tasks> tasks { get; } = new List<Tasks>();
+        public IReadOnlyCollection<Users> users { get; } = new List<Users>();
+        public IReadOnlyCollection<Venues> venues { get; } = new List<Venues>();
 
-
-        //public DataGenerator()
-        //{
-        //    Randomizer.Seed = new Random(123);
-
-        //    attendeeFaker = new Faker<Attendees>()
-        //        .RuleFor(u => u.FirstName, f => f.Name.FirstName())
-        //        .RuleFor(u => u.LastName, f => f.Name.LastName())
-        //        .RuleFor(u => u.RegistrationDate, f => f.Date.Recent())
-        //        .RuleFor(u => u.PaymentStatus, f => false);
-
-
-
-        //    userFaker = GetUserGenerator();
-
-
-        //    messageFaker = new Faker<Messages>()
-        //        .RuleFor(u => u.Content, f => f.Lorem.Letter())
-        //        .RuleFor(u => u.Subject, f => f.Lorem.Sentence())
-        //        .RuleFor(u => u.Timestamp, f => f.Date.Recent())
-
-
-
-        //}
-
-        public Faker<Messages> GetMessagesGenerator()
+        public DataGenerator()
         {
-            var userFaker = GetUserGenerator();
+            eventCategories = SeedEventCatagories(amount: 10);
+            venues = SeedVenues(amount: 20);
+            contacts = SeedContacts(amount: 50);
+            users = SeedUsers(amount: 20);
 
-            messageFaker = new Faker<Messages>()
+            events = SeedEvents(amount: 200, eventCategories, venues);
+
+            attendees = SeedAttendees(amount: 200, events);
+
+            budgetItems = SeedBudgetItems(amount: 50, events);
+            resources = SeedResources(amount: 50, events);
+
+            messages = SeedMessages(amount: 50, users);
+            tasks = SeedTasks(amount: 20, events);
+        }
+
+        private static IReadOnlyCollection<Tasks> SeedTasks(int amount, IEnumerable<Events> events)
+        {
+            var tasksID = 1;
+
+            var tasksFaker = new Faker<Tasks>()
+                .RuleFor(e => e.ID, f => tasksID++)
+                .RuleFor(e => e.DueDate, f => f.Date.Recent())
+                .RuleFor(e => e.Description, f => f.Lorem.Sentence())
+                .RuleFor(e => e.Priority, f => f.Random.Number(1, 10))
+                .RuleFor(e => e.Status, f => f.Random.Number(1, 5))
+                .RuleFor(e => e.EventsID, f => f.PickRandom<Events>(events).ID);
+
+            return tasksFaker.Generate(amount);
+        }
+
+        private static IReadOnlyCollection<Messages> SeedMessages(int amount, IEnumerable<Users> users)
+        {
+            var messagesID = 1;
+
+            var messageFaker = new Faker<Messages>()
+                .RuleFor(u => u.ID, f => messagesID++)
                 .RuleFor(u => u.Content, f => f.Lorem.Letter())
                 .RuleFor(u => u.Subject, f => f.Lorem.Sentence())
                 .RuleFor(u => u.Timestamp, f => f.Date.Recent())
-                .RuleFor(u => u.SenderID, f => userFaker.Generate().ID)
-                .RuleFor(u => u.ReceiverID, f => userFaker.Generate().ID);
+                .RuleFor(u => u.ReceiverID, f => f.PickRandom<Users>(users).ID)
+                .RuleFor(u => u.SenderID, f => f.PickRandom<Users>(users).ID);
 
-            dbContext.Messages.Add(messageFaker);
 
-            return messageFaker;
+
+            return messageFaker.Generate(amount);
         }
 
-        public Faker<Users> GetUserGenerator()
+        private static IReadOnlyCollection<Resources> SeedResources(int amount, IEnumerable<Events> events)
         {
-            userFaker = new Faker<Users>()
-                .RuleFor(u => u.FirstName, f => f.Name.FirstName())
-                .RuleFor(u => u.LastName, f => f.Name.LastName())
-                .RuleFor(u => u.Username, f => f.Hacker.Noun())
-                .RuleFor(u => u.Role, f => f.Hacker.Verb());
+            var resourcesID = 1;
 
-            dbContext.Users.Add(userFaker);
+            var resourcesFaker = new Faker<Resources>()
+                .RuleFor(e => e.ID, f => resourcesID++)
+                .RuleFor(e => e.Description, f => f.Lorem.Sentence())
+                .RuleFor(e => e.Name, f => f.Commerce.Product())
+                .RuleFor(e => e.Quantity, f => f.Random.Number(1, 40))
+                .RuleFor(e => e.EventsID, f => f.PickRandom<Events>(events).ID);
 
-            return userFaker;
+            return resourcesFaker.Generate(amount);
         }
 
-    //    public AttendeeModel GenerateAttendeeModel()
-    //    {
-    //        if (attendeeFaker is null)
-    //        {
-    //            attendeeFaker = new Faker<Attendees>()
-    //                .RuleFor(u => u.FirstName, f => f.Name.FirstName())
-    //                .RuleFor(u => u.LastName, f => f.Name.LastName())
-    //                .RuleFor(u => u.RegistrationDate, f => f.Date.Recent())
-    //                .RuleFor(u => u.PaymentStatus, f => false);
-    //        }
-    //    }
-    
-    //public void SeedData()
-    //    {
-    //        Randomizer.Seed = new Random(8675309);
+        private static IReadOnlyCollection<BudgetItems> SeedBudgetItems(int amount, IEnumerable<Events> events)
+        {
+            var budgetItemsID = 1;
 
-    //        SeedEventCatagories();
-    //        SeedEvents();
-    //        SeedAttendees();
-    //        SeedTasks();
-    //        SeedMessages();
-    //        SeedUsers();
-    //        SeedContacts();
-    //        SeedVenues();
-    //        SeedResources();
-    //        SeedBudgetItems();
-    //    }
+            var budgetItemsFaker = new Faker<BudgetItems>()
+                .RuleFor(e => e.ID, f => budgetItemsID++)
+                //.RuleFor(e => e.Amount, f => Convert.ToDecimal(f.Commerce.Price(1, 150, 2, "$")))
+                .RuleFor(e => e.Description, f => f.Lorem.Sentence())
+                .RuleFor(e => e.Type, f => f.Random.Number(1, 5))
+                .RuleFor(e => e.Date, f => f.Date.Soon())
+                .RuleFor(e => e.EventsID, f => f.PickRandom<Events>(events).ID);
 
-    //    private void SeedBudgetItems()
-    //    {
-    //        var budgetItemsFaker = new Faker<BudgetItems>()
-    //            .RuleFor(e => e.Amount, f => f.Random.Number(1, 5))
-    //            .RuleFor(e => e.Description, f => f.Lorem.Sentence())
-    //            .RuleFor(e => e.Type, f => f.Random.Number(1, 5))
-    //            .RuleFor(e => e.Date, f => f.Date.Soon());
+            return budgetItemsFaker.Generate(amount);
+        }
 
-    //    }
+        private static IReadOnlyCollection<Attendees> SeedAttendees(int amount, IEnumerable<Events> events)
+        {
+            var attendeesID = 1;
 
+            var attendeesFaker = new Faker<Attendees>()
+                .RuleFor(e => e.ID, f => attendeesID++)
+                .RuleFor(e => e.FirstName, f => f.Name.FirstName())
+                .RuleFor(e => e.LastName, f => f.Name.LastName())
+                .RuleFor(e => e.Email, f => f.Internet.Email())
+                .RuleFor(e => e.EventsID, f => f.PickRandom<Events>(events).ID)
+                .RuleFor(e => e.RegistrationDate, f => f.Date.Recent());
 
-    //    private void SeedTasks()
-    //    {
-    //        var priority = new[] { "High", "Medium", "Low" };
-    //        var status = new[] { "In-Process", "Completed", "Pending", "Unassigned" };
+            return attendeesFaker.Generate(amount);
+        }
 
-    //        var tasksFaker = new Faker<Tasks>()
-    //            .RuleFor(e => e.DueDate, f => f.Date.Recent())
-    //            .RuleFor(e => e.Description, f => f.Lorem.Sentence())
-    //            .RuleFor(e => e.Priority, f => f.Random.Number(1, 10))
-    //            .RuleFor(e => e.Status, f => f.Random.Number(1, 5));
-    //        //throw new NotImplementedException();
-    //    }
+        private static IReadOnlyCollection<Events> SeedEvents(int amount, IEnumerable<EventCategories> eventCategories, IEnumerable<Venues> venues)
+        {
+            var eventID = 1;
 
-    //    public void SeedAttendees()
-    //    {
-    //        var attendeesFaker = new Faker<Attendees>()
-    //            .RuleFor(e => e.FirstName, f => f.Name.FirstName())
-    //            .RuleFor(e => e.LastName, f => f.Name.LastName())
-    //            .RuleFor(e => e.Email, f => f.Internet.Email())
-    //            .RuleFor(e => e.EventsID, f => f.Random.Number(1, 10));
+            var eventFaker = new Faker<Events>()
+                .RuleFor(e => e.ID, f => eventID++)
+                .RuleFor(e => e.Name, f => f.Lorem.Sentence())
+                .RuleFor(e => e.Description, f => f.Lorem.Paragraph())
+                .RuleFor(e => e.StartDate, f => f.Date.Recent())
+                .RuleFor(e => e.EndDate, f => f.Date.Future())
+                .RuleFor(e => e.CategoryID, f => f.PickRandom(eventCategories).ID)
+                .RuleFor(e => e.VenuesID, f => f.PickRandom(venues).ID);
 
-    //        //var attendees = attendeesFaker.Generate(10);
+            return eventFaker.Generate(amount); 
 
-    //        //return attendees;
-    //        //throw new NotImplementedException();
-    //    }
+        }
 
-    //    public void SeedEvents()
-    //    {
-    //        // Seed Events table
-    //        var eventFaker = new Faker<Events>()
-    //            .RuleFor(e => e.Name, f => f.Lorem.Sentence())
-    //            .RuleFor(e => e.Description, f => f.Lorem.Paragraph())
-    //            .RuleFor(e => e.StartDate, f => f.Date.Recent())
-    //            .RuleFor(e => e.EndDate, f => f.Date.Future())
-    //            .RuleFor(e => e.CategoryID, f => f.Random.Number(1, 5)) // Assuming 5 categories
-    //            .RuleFor(e => e.VenuesID, f => f.Random.Number(1, 5))
-    //            .RuleFor(u => u.Venues, f => SeedAttendees.Generate(3).ToList());
+        private static IReadOnlyCollection<Users> SeedUsers(int amount)
+        {
+            var userID = 1;
+            var usersFaker = new Faker<Users>()
+                .RuleFor(e => e.ID, f => userID++)
+                .RuleFor(e => e.FirstName, f => f.Name.FirstName())
+                .RuleFor(e => e.LastName, f => f.Name.LastName())
+                .RuleFor(e => e.Username, f => f.Internet.Email())
+                .RuleFor(e => e.Password, f => f.Random.Bytes(20))
+                .RuleFor(e => e.Role, f => f.Hacker.Adjective());
 
+            return usersFaker.Generate(amount);
+        }
 
+        private static IReadOnlyCollection<Contacts> SeedContacts(int amount)
+        {
+            var contactID = 1;
+            var contactsFaker = new Faker<Contacts>()
+                .RuleFor(e => e.ID, f => contactID++)
+                .RuleFor(e => e.FirstName, f => f.Name.FirstName())
+                .RuleFor(e => e.LastName, f => f.Name.LastName())
+                .RuleFor(e => e.Email, f => f.Internet.Email())
+                .RuleFor(e => e.Phone, f => f.Phone.PhoneNumber())
+                .RuleFor(e => e.Organization, f => f.Company.CompanyName());
 
-    //        var events = eventFaker.Generate(10); // Generate 10 random events
+            return contactsFaker.Generate(amount);
+        }
 
-    //        Events.AddRange(events);
-    //        SaveChanges();
+        private static IReadOnlyCollection<Venues> SeedVenues(int amount)
+        {
+            var venueID = 1;
+            var venueFaker = new Faker<Venues>()
+                .RuleFor(x => x.ID, f => venueID++)
+                .RuleFor(x => x.Name, f => f.Hacker.Noun())
+                .RuleFor(x => x.Address, f => f.Address.FullAddress())
+                .RuleFor(x => x.Capacity, f => f.Random.Int(10, 300))
+                .RuleFor(x => x.CompanyOwned, f => f.Random.Bool())
+                .RuleFor(x => x.LayoutDiagram, f => f.Random.Bytes(50));
 
-    //        //throw new NotImplementedException();
-    //    }
+            return venueFaker.Generate(amount);
+            
+        }
 
-    //    public void SeedEventCatagories()
-    //    {
-    //        var category = new[] { "Dance", "Convention", "Presentation", "Party", "Fund Raiser" };
+        private static IReadOnlyCollection<EventCategories> SeedEventCatagories(int amount)
+        {
+            var eventCatID = 1;
+            var eventCatFaker = new Faker<EventCategories>()
+                .RuleFor(x => x.ID, f => eventCatID++)
+                .RuleFor(x => x.Name, f => f.Lorem.Word());
 
-    //        var eventCatFaker = new Faker<EventCategories>()
-    //            .RuleFor(e => e.Name, f => category[f.Random.Number(0, 4)]); // Assuming 5 categories
-    //        throw new NotImplementedException();
-    //    }
+            return eventCatFaker.Generate(amount); ;
+        }
     }
 }

@@ -55,6 +55,7 @@
             this.venueSchedulingToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.reportsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.generateReportsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.budgetTrackingToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.debugToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.dgvMain = new System.Windows.Forms.DataGridView();
             this.dgvExtra = new System.Windows.Forms.DataGridView();
@@ -74,7 +75,6 @@
             this.btnEPrev = new System.Windows.Forms.Button();
             this.btnEFirst = new System.Windows.Forms.Button();
             this.btnModify = new System.Windows.Forms.Button();
-            this.budgetTrackingToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuEMS.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvMain)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dgvExtra)).BeginInit();
@@ -137,32 +137,33 @@
             this.eventsToolStripMenuItem1.Name = "eventsToolStripMenuItem1";
             this.eventsToolStripMenuItem1.Size = new System.Drawing.Size(180, 22);
             this.eventsToolStripMenuItem1.Text = "Events";
+            this.eventsToolStripMenuItem1.Click += new System.EventHandler(this.eventsToolStripMenuItem1_Click);
             // 
             // tasksToolStripMenuItem1
             // 
             this.tasksToolStripMenuItem1.Name = "tasksToolStripMenuItem1";
-            this.tasksToolStripMenuItem1.Size = new System.Drawing.Size(127, 22);
+            this.tasksToolStripMenuItem1.Size = new System.Drawing.Size(180, 22);
             this.tasksToolStripMenuItem1.Text = "Tasks";
             this.tasksToolStripMenuItem1.Click += new System.EventHandler(this.tasksToolStripMenuItem1_Click);
             // 
             // venuesToolStripMenuItem1
             // 
             this.venuesToolStripMenuItem1.Name = "venuesToolStripMenuItem1";
-            this.venuesToolStripMenuItem1.Size = new System.Drawing.Size(127, 22);
+            this.venuesToolStripMenuItem1.Size = new System.Drawing.Size(180, 22);
             this.venuesToolStripMenuItem1.Text = "Venues";
             this.venuesToolStripMenuItem1.Click += new System.EventHandler(this.venuesToolStripMenuItem1_Click);
             // 
             // contactsToolStripMenuItem
             // 
             this.contactsToolStripMenuItem.Name = "contactsToolStripMenuItem";
-            this.contactsToolStripMenuItem.Size = new System.Drawing.Size(127, 22);
+            this.contactsToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.contactsToolStripMenuItem.Text = "Contacts";
             this.contactsToolStripMenuItem.Click += new System.EventHandler(this.contactsToolStripMenuItem_Click);
             // 
             // resourcesToolStripMenuItem
             // 
             this.resourcesToolStripMenuItem.Name = "resourcesToolStripMenuItem";
-            this.resourcesToolStripMenuItem.Size = new System.Drawing.Size(127, 22);
+            this.resourcesToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.resourcesToolStripMenuItem.Text = "Resources";
             this.resourcesToolStripMenuItem.Click += new System.EventHandler(this.resourcesToolStripMenuItem_Click);
             // 
@@ -241,14 +242,14 @@
             // teamMessagesToolStripMenuItem
             // 
             this.teamMessagesToolStripMenuItem.Name = "teamMessagesToolStripMenuItem";
-            this.teamMessagesToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.teamMessagesToolStripMenuItem.Size = new System.Drawing.Size(174, 22);
             this.teamMessagesToolStripMenuItem.Text = "Internal Messaging";
             this.teamMessagesToolStripMenuItem.Click += new System.EventHandler(this.teamMessagesToolStripMenuItem_Click);
             // 
             // contactMessagesToolStripMenuItem
             // 
             this.contactMessagesToolStripMenuItem.Name = "contactMessagesToolStripMenuItem";
-            this.contactMessagesToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.contactMessagesToolStripMenuItem.Size = new System.Drawing.Size(174, 22);
             this.contactMessagesToolStripMenuItem.Text = "Contacts";
             this.contactMessagesToolStripMenuItem.Click += new System.EventHandler(this.contactMessagesToolStripMenuItem_Click);
             // 
@@ -287,9 +288,16 @@
             // generateReportsToolStripMenuItem
             // 
             this.generateReportsToolStripMenuItem.Name = "generateReportsToolStripMenuItem";
-            this.generateReportsToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.generateReportsToolStripMenuItem.Size = new System.Drawing.Size(164, 22);
             this.generateReportsToolStripMenuItem.Text = "Generate Reports";
             this.generateReportsToolStripMenuItem.Click += new System.EventHandler(this.generateReportsToolStripMenuItem_Click);
+            // 
+            // budgetTrackingToolStripMenuItem
+            // 
+            this.budgetTrackingToolStripMenuItem.Name = "budgetTrackingToolStripMenuItem";
+            this.budgetTrackingToolStripMenuItem.Size = new System.Drawing.Size(164, 22);
+            this.budgetTrackingToolStripMenuItem.Text = "Budget Tracking";
+            this.budgetTrackingToolStripMenuItem.Click += new System.EventHandler(this.budgetTrackingToolStripMenuItem_Click);
             // 
             // debugToolStripMenuItem
             // 
@@ -482,13 +490,6 @@
             this.btnModify.Text = "Modify";
             this.btnModify.UseVisualStyleBackColor = true;
             this.btnModify.Click += new System.EventHandler(this.btnModify_Click);
-            // 
-            // budgetTrackingToolStripMenuItem
-            // 
-            this.budgetTrackingToolStripMenuItem.Name = "budgetTrackingToolStripMenuItem";
-            this.budgetTrackingToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-            this.budgetTrackingToolStripMenuItem.Text = "Budget Tracking";
-            this.budgetTrackingToolStripMenuItem.Click += new System.EventHandler(this.budgetTrackingToolStripMenuItem_Click);
             // 
             // MainForm
             // 

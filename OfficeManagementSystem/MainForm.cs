@@ -32,6 +32,7 @@ namespace OfficeManagementSystem
         Users localUser = null; // Holds the current user for the system so we can send it around to other forms
         String pageTitle = "Event Management System"; // Holder for dynamic page title
         bool debug = true; // Allows us access to the Database so I can store and change items.
+        string viewSet = "Event"; // Hardcores the initial view for the page as the Events.
 
         // Used in the DataGridView as points of changing events
         int modifyIndex;
@@ -80,9 +81,39 @@ namespace OfficeManagementSystem
 
             dgvMain.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
 
+            UpdateDataGrid(viewSet);
+
+            // End of Paging System.
+
+            UpdateForm();
+
+            //UpdateDataGrid();
+        }
+
+        private void UpdateDataGrid(object currViewSet)
+        {
+            this.viewSet =(String)currViewSet;
+            switch (viewSet)
+            {
+                case "Event":
+                    totalRows = _OMScontext.Events.ToList().Count();
+                    break;
+                case "Tasks":
+                    totalRows = _OMScontext.Tasks.ToList().Count();
+                    break;
+                case "Venues":
+                    totalRows = _OMScontext.Venues.ToList().Count();
+                    break;
+                case "Contact":
+                    totalRows = _OMScontext.Contacts.ToList().Count();
+                    break;
+                case "Resources":
+                    totalRows = _OMScontext.Resources.ToList().Count();
+                    break;
+                default:
+                    break;
+            }
             // Trying to create paging system.
-            var eventsSet = _OMScontext.Events.OrderBy(p => p.StartDate).ToList();
-            totalRows = eventsSet.Count();
             pages = totalRows / MaxRows;
             if (totalRows % MaxRows != 0)
             {
@@ -91,12 +122,7 @@ namespace OfficeManagementSystem
             lblPages.Text = "/ " + pages;
 
             DisplayEvents(1);
-
-            // End of Paging System.
-
-            UpdateForm();
-
-            //UpdateDataGrid();
+            //throw new NotImplementedException();
         }
 
         private void userLoginToolStripMenuItem_Click(object sender, EventArgs e)
@@ -108,10 +134,7 @@ namespace OfficeManagementSystem
 
         private void UpdateForm()
         {
-
-
             debugToolStripMenuItem.Visible = debug;
-
 
             if (localUser != null)
             {
@@ -167,69 +190,77 @@ namespace OfficeManagementSystem
 
         private void tasksToolStripMenuItem1_Click(object sender, EventArgs e)
         {
-            // Clear existing columns
-            dgvMain.Columns.Clear();
+            viewSet = "Task";
+            UpdateDataGrid(viewSet);
 
-            using (OMScontext context = new OMScontext())
-            {
-                var data = from eventRecord in _OMScontext.Events
-                           join taskRecord in _OMScontext.Tasks
-                           on eventRecord.ID equals taskRecord.EventsID
-                           select new
-                           {
-                               Name = eventRecord.Name,
-                               Description = taskRecord.Description,
-                               DueDate = taskRecord.DueDate,
-                               Priority = taskRecord.Priority,
-                               Status = taskRecord.Status
-                           };
 
-                dgvMain.DataSource = data.ToList();
-                dgvMain.AutoGenerateColumns = true;
-            }
+
+            //// Clear existing columns
+            //dgvMain.Columns.Clear();
+
+            //using (OMScontext context = new OMScontext())
+            //{
+            //    var data = from eventRecord in _OMScontext.Events
+            //               join taskRecord in _OMScontext.Tasks
+            //               on eventRecord.ID equals taskRecord.EventsID
+            //               select new
+            //               {
+            //                   Name = eventRecord.Name,
+            //                   Description = taskRecord.Description,
+            //                   DueDate = taskRecord.DueDate,
+            //                   Priority = taskRecord.Priority,
+            //                   Status = taskRecord.Status
+            //               };
+
+            //    dgvMain.DataSource = data.ToList();
+            //    dgvMain.AutoGenerateColumns = true;
+            //}
         }
 
         private void venuesToolStripMenuItem1_Click(object sender, EventArgs e)
         {
-            // Clear existing columns
-            dgvMain.Columns.Clear();
+            UpdateDataGrid("Venues");
+            //// Clear existing columns
+            //dgvMain.Columns.Clear();
 
-            using (OMScontext context = new OMScontext())
-            {
-                var data = from venuesRecord in _OMScontext.Venues
-                           select new
-                           {
-                               Name = venuesRecord.Name,
-                               Address = venuesRecord.Address,
-                               Capacity = venuesRecord.Capacity,
-                               CompanyOwned = venuesRecord.CompanyOwned
-                           };
+            //using (OMScontext context = new OMScontext())
+            //{
+            //    var data = from venuesRecord in _OMScontext.Venues
+            //               select new
+            //               {
+            //                   Name = venuesRecord.Name,
+            //                   Address = venuesRecord.Address,
+            //                   Capacity = venuesRecord.Capacity,
+            //                   CompanyOwned = venuesRecord.CompanyOwned
+            //               };
 
-                dgvMain.DataSource = data.ToList();
-                dgvMain.AutoGenerateColumns = true;
-            }
+            //    dgvMain.DataSource = data.ToList();
+            //    dgvMain.AutoGenerateColumns = true;
+            //}
         }
 
         private void contactsToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            UpdateDataGrid("Contacts");
+
             // Clear existing columns
-            dgvMain.Columns.Clear();
+            //dgvMain.Columns.Clear();
 
-            using (OMScontext context = new OMScontext())
-            {
-                var data = from contactsRecord in _OMScontext.Contacts
-                           select new
-                           {
-                               FirstName = contactsRecord.FirstName,
-                               LastName = contactsRecord.LastName,
-                               Email = contactsRecord.Email,
-                               DueDate = contactsRecord.Phone,
-                               Priority = contactsRecord.Organization,
-                           };
+            //using (OMScontext context = new OMScontext())
+            //{
+            //    var data = from contactsRecord in _OMScontext.Contacts
+            //               select new
+            //               {
+            //                   FirstName = contactsRecord.FirstName,
+            //                   LastName = contactsRecord.LastName,
+            //                   Email = contactsRecord.Email,
+            //                   DueDate = contactsRecord.Phone,
+            //                   Priority = contactsRecord.Organization,
+            //               };
 
-                dgvMain.DataSource = data.ToList();
-                dgvMain.AutoGenerateColumns = true;
-            }
+            //    dgvMain.DataSource = data.ToList();
+            //    dgvMain.AutoGenerateColumns = true;
+            //}
         }
 
         private void resourcesToolStripMenuItem_Click(object sender, EventArgs e)
@@ -274,8 +305,31 @@ namespace OfficeManagementSystem
                 "Resources", "BudgetItems", "Contacts", "VenuesID",
                 "Venues", "EventsID", "Events", };
 
-            var eventsSet = _OMScontext.Events.OrderBy(p => p.StartDate).Skip(skip).Take(take).ToList();
-            dgvMain.DataSource = eventsSet;
+
+            // Need to set the datasource based on the current set of the viewSet
+            switch (viewSet)
+            {
+                case "Event":
+                    dgvMain.DataSource = _OMScontext.Events.OrderBy(t => t.StartDate).ToList();
+                    break;
+                case "Tasks":
+                    dgvMain.DataSource = _OMScontext.Tasks.OrderBy(t => t.DueDate).ToList();
+                    break;
+                case "Venues":
+                    dgvMain.DataSource = _OMScontext.Venues.OrderBy(t => t.Name).ToList();
+                    break;
+                case "Contact":
+                    dgvMain.DataSource = _OMScontext.Contacts.OrderBy(t => t.LastName).ToList();
+                    break;
+                case "Resources":
+                    dgvMain.DataSource = _OMScontext.Resources.OrderBy(t => t.Name).ToList();
+                    break;
+                default:
+                    break;
+            }
+
+            dgvMain.AutoGenerateColumns = true;
+            dgvMain.AutoGenerateColumns = false;
 
             // Only displaying the columns that need to be displayed
             foreach(DataGridViewColumn column in dgvMain.Columns)
@@ -285,11 +339,10 @@ namespace OfficeManagementSystem
                     if (column.HeaderText.Equals(header))
                         column.Visible = false;
                 }
-                if (column.HeaderText.Equals("StartDate") || column.HeaderText.Equals("EndDate"))
+                if (column.HeaderText.Contains("Date") || column.HeaderText.Contains("date"))
                     column.DefaultCellStyle.Format = "MM/dd/yy";
                 // Could potentially edit columns as they are being found and comparing them with 
                 // the header text from inside this iterative group.
-
             }
 
             // Creating the Delete and Modify Columns
@@ -315,7 +368,7 @@ namespace OfficeManagementSystem
 
             // Formating the DataGridView
             dgvMain.AlternatingRowsDefaultCellStyle.BackColor = Color.AliceBlue;
-            dgvMain.Columns[2].Width = 220;
+            //dgvMain.Columns[2].Width = 220;
             //dgvMain.Columns[2].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleRight;
 
             // Pre-Select the first row, so there isn't a null exception thrown if the combobox for extra is changed first.
@@ -708,6 +761,12 @@ namespace OfficeManagementSystem
         {
             ContactsForm viewContactsForm = new ContactsForm();
             viewContactsForm.displayContactsForm(localUser);
+        }
+
+        private void eventsToolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+            viewSet = "Event";
+            UpdateDataGrid(viewSet);
         }
     }
 }
